@@ -1,0 +1,105 @@
+* {
+  box-sizing: border-box;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+  background-color: #f0f2f5;
+  margin: 0;
+  padding: 0;
+}
+
+.app-container {
+  max-width: 600px;
+  margin: 3rem auto;
+  padding: 2rem;
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s;
+}
+
+h1 {
+  text-align: center;
+  color: #1a73e8;
+  margin-bottom: 2rem;
+}
+
+.client-form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+  margin-bottom: 1.5rem;
+}
+
+.client-form input {
+  padding: 0.7rem 1rem;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  transition: border-color 0.3s;
+}
+
+.client-form input:focus {
+  border-color: #1a73e8;
+  outline: none;
+}
+
+.client-form button {
+  background-color: #1a73e8;
+  color: white;
+  border: none;
+  padding: 0.9rem;
+  font-size: 1rem;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.client-form button:hover {
+  background-color: #135cb5;
+}
+
+.retrieve-button {
+  background-color: #34a853;
+  color: white;
+  padding: 0.9rem;
+  width: 100%;
+  border: none;
+  font-size: 1rem;
+  border-radius: 10px;
+  cursor: pointer;
+  margin-bottom: 1.5rem;
+  transition: background-color 0.3s;
+}
+
+.retrieve-button:hover {
+  background-color: #2a8445;
+}
+
+.client-list {
+  display: grid;
+  gap: 1rem;
+}
+
+.client-card {
+  background-color: #f1f3f4;
+  border-left: 5px solid #1a73e8;
+  padding: 1rem;
+  border-radius: 10px;
+  animation: fadeIn 0.5s ease forwards;
+}
+
+.client-card h3 {
+  margin: 0;
+  margin-bottom: 0.3rem;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.fade-in {
+  animation: fadeIn 0.5s ease;
+}

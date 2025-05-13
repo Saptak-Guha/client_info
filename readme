@@ -1,0 +1,21 @@
+Using Django(Backend) + React(Frontend) + MongoDB(Database)
+Just for fun and tackling complexity.
+
+
+Django 8000
+React 5173
+Mongo (default)
+
+This project is to help and store information of clients in our office.
+And keep track of everything.
+
+
+2:42 am 26th April 
+- Connected React + Mongo + Django
+
+GET clients:
+curl -X GET http://127.0.0.1:8000/clients/
+
+
+POST clients:
+curl -X POST http://127.0.0.1:8000/clients/      -H "Content-Type: application/json"      -d '{"name": "John Doe", "password": "helloxy23", "pan": "27DAUF23Q", "email":"debasis@dummy.com", "phone": "843083492"}'
