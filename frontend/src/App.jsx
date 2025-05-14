@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './App.css';
+import { motion, AnimatePresence } from 'framer-motion';
 
 function App() {
   const [formData, setFormData] = useState({
@@ -7,86 +8,139 @@ function App() {
     password: '',
     pan: '',
     email: '',
-    phone: ''
+    phone: '',
   });
+
   const [clients, setClients] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const [submitting, setSubmitting] = useState(false);
+  const [filteredClients, setFilteredClients] = useState([]);
+  const [deleteMode, setDeleteMode] = useState(false);
+  const [selectedClients, setSelectedClients] = useState([]);
+  const [searchTerm, setSearchTerm] = useState('');
+
+  const apiUrl = 'http://127.0.0.1:8000/clients/';
 
   const handleChange = (e) => {
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
-      [e.target.name]: e.target.value
+      [e.target.name]: e.target.value,
     }));
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setSubmitting(true);
-    try {
-      const response = await fetch('http://127.0.0.1:8000/clients/', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(formData)
-      });
-
-      if (!response.ok) throw new Error("Submission failed");
-
-      alert("Client added successfully!");
-      setFormData({ name: '', password: '', pan: '', email: '', phone: '' });
-    } catch (err) {
-      alert("Error submitting data!");
-      console.error(err);
-    } finally {
-      setSubmitting(false);
-    }
+    await fetch(apiUrl, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(formData),
+    });
+    fetchClients();
   };
 
   const fetchClients = async () => {
-    setLoading(true);
-    try {
-      const response = await fetch('http://127.0.0.1:8000/clients/');
-      const data = await response.json();
-      setClients(data);
-    } catch (err) {
-      console.error("Error fetching data:", err);
-    } finally {
-      setLoading(false);
-    }
+    const res = await fetch(apiUrl);
+    const data = await res.json();
+    setClients(data);
+    setFilteredClients(data);
   };
 
+  const handleDelete = async () => {
+    await fetch(apiUrl, {
+      method: 'DELETE',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ names: selectedClients }),
+    });
+    setSelectedClients([]);
+    setDeleteMode(false);
+    fetchClients();
+  };
+
+  const handleSearch = () => {
+    const filtered = clients.filter(client =>
+      client.name.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+    setFilteredClients(filtered);
+  };
+
+  useEffect(() => {
+    fetchClients();
+  }, []);
+
   return (
-    <div className="app-container">
-      <h1>Client Database</h1>
-      <form className="client-form" onSubmit={handleSubmit}>
-        <input name="name" placeholder="Name" value={formData.name} onChange={handleChange} />
-        <input name="password" type="password" placeholder="Password" value={formData.password} onChange={handleChange} />
-        <input name="pan" placeholder="PAN Number" value={formData.pan} onChange={handleChange} />
-        <input name="email" type="email" placeholder="Email" value={formData.email} onChange={handleChange} />
-        <input name="phone" placeholder="Phone Number" value={formData.phone} onChange={handleChange} />
-        <button type="submit" disabled={submitting}>
-          {submitting ? 'Submitting...' : 'Add Client'}
-        </button>
+    <div className="container">
+      <h1>Client Manager</h1>
+
+      <form onSubmit={handleSubmit} className="form">
+        {['name', 'password', 'pan', 'email', 'phone'].map((field) => (
+          <input
+            key={field}
+            type="text"
+            name={field}
+            placeholder={field.toUpperCase()}
+            value={formData[field]}
+            onChange={handleChange}
+            required
+          />
+        ))}
+        <button type="submit">Add Client</button>
       </form>
 
-      <button className="retrieve-button" onClick={fetchClients}>
-        {loading ? 'Loading...' : 'Retrieve Clients'}
-      </button>
-
-      <div className="client-list">
-        {clients.length === 0 && !loading && <p>No clients to display</p>}
-        {clients.map((client, index) => (
-          <div key={index} className="client-card fade-in">
-            <h3>{client.name}</h3>
-            <p><strong>Email:</strong> {client.email}</p>
-            <p><strong>Phone:</strong> {client.phone}</p>
-            <p><strong>PAN:</strong> {client.pan}</p>
-            <p><strong>Password:</strong> {client.password}</p>
-          </div>
-        ))}
+      <div className="buttons">
+        <button onClick={fetchClients}>Retrieve All Clients</button>
+        <button onClick={() => setDeleteMode(!deleteMode)}>
+          {deleteMode ? 'Cancel Delete' : 'Delete Clients'}
+        </button>
+        {deleteMode && (
+          <button className="confirm" onClick={handleDelete}>
+            Confirm Delete
+          </button>
+        )}
       </div>
+
+      <div className="search-box">
+        <input
+          type="text"
+          placeholder="Search by name..."
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+        />
+        <button onClick={handleSearch}>Search</button>
+      </div>
+
+      <motion.div layout className="clients-list">
+        <AnimatePresence>
+          {filteredClients.map((client, idx) => (
+            <motion.div
+              key={idx}
+              layout
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
+              className="client-card"
+            >
+              {deleteMode && (
+                <input
+                  type="checkbox"
+                  checked={selectedClients.includes(client.name)}
+                  onChange={(e) => {
+                    const checked = e.target.checked;
+                    setSelectedClients((prev) =>
+                      checked
+                        ? [...prev, client.name]
+                        : prev.filter((n) => n !== client.name)
+                    );
+                  }}
+                />
+              )}
+              <div>
+                <strong>{client.name}</strong> <br />
+                📧 {client.email} <br />
+                📞 {client.phone} <br />
+                🆔 {client.pan}
+              </div>
+            </motion.div>
+          ))}
+        </AnimatePresence>
+      </motion.div>
     </div>
   );
 }

@@ -1,105 +1,141 @@
-* {
-  box-sizing: border-box;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-}
-
 body {
-  background-color: #f0f2f5;
+  font-family: 'Segoe UI', sans-serif;
+  background: #f4f4f8;
   margin: 0;
   padding: 0;
 }
 
-.app-container {
-  max-width: 600px;
-  margin: 3rem auto;
-  padding: 2rem;
-  background: #fff;
-  border-radius: 16px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-  transition: all 0.3s;
+.container {
+  max-width: 700px;
+  margin: auto;
+  padding: 20px;
+  text-align: center;
 }
 
 h1 {
-  text-align: center;
-  color: #1a73e8;
-  margin-bottom: 2rem;
+  color: #333;
 }
 
-.client-form {
-  display: flex;
-  flex-direction: column;
-  gap: 0.8rem;
-  margin-bottom: 1.5rem;
+.form input {
+  margin: 6px;
+  padding: 10px;
+  width: calc(100% - 24px);
 }
 
-.client-form input {
-  padding: 0.7rem 1rem;
-  font-size: 1rem;
-  border: 1px solid #ccc;
-  border-radius: 10px;
-  transition: border-color 0.3s;
-}
-
-.client-form input:focus {
-  border-color: #1a73e8;
-  outline: none;
-}
-
-.client-form button {
-  background-color: #1a73e8;
+.form button {
+  padding: 10px 20px;
+  margin-top: 10px;
+  cursor: pointer;
+  background: #4caf50;
   color: white;
   border: none;
-  padding: 0.9rem;
-  font-size: 1rem;
-  border-radius: 10px;
-  cursor: pointer;
-  transition: background-color 0.3s;
+  border-radius: 5px;
+  transition: background 0.3s ease;
 }
 
-.client-form button:hover {
-  background-color: #135cb5;
+.form button:hover {
+  background: #45a049;
 }
 
-.retrieve-button {
-  background-color: #34a853;
-  color: white;
-  padding: 0.9rem;
-  width: 100%;
+.buttons {
+  margin-top: 20px;
+}
+
+button {
+  padding: 8px 15px;
+  margin: 5px;
   border: none;
-  font-size: 1rem;
-  border-radius: 10px;
   cursor: pointer;
-  margin-bottom: 1.5rem;
-  transition: background-color 0.3s;
+  background: #2196f3;
+  color: white;
+  border-radius: 5px;
+  transition: background 0.3s ease;
 }
 
-.retrieve-button:hover {
-  background-color: #2a8445;
+button.confirm {
+  background: #f44336;
 }
 
-.client-list {
+button:hover {
+  background: #1976d2;
+}
+
+.search-box {
+  margin: 20px auto;
+}
+
+.search-box input {
+  padding: 8px;
+  width: 70%;
+  max-width: 300px;
+}
+
+.clients-list {
   display: grid;
-  gap: 1rem;
+  grid-template-columns: 1fr;
+  gap: 10px;
+  margin-top: 20px;
 }
 
 .client-card {
-  background-color: #f1f3f4;
-  border-left: 5px solid #1a73e8;
-  padding: 1rem;
-  border-radius: 10px;
-  animation: fadeIn 0.5s ease forwards;
+  background: #ffffff;
+  padding: 20px; /* Increased padding for more spacing */
+  border-radius: 12px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  cursor: pointer;
+  overflow: hidden;
+  text-align: left; /* Left align the text */
+  margin-bottom: 15px; /* Add margin to the bottom of the card for spacing between cards */
 }
 
-.client-card h3 {
-  margin: 0;
-  margin-bottom: 0.3rem;
+.client-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
 }
 
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(10px); }
-  to { opacity: 1; transform: translateY(0); }
+.client-card input[type="checkbox"] {
+  margin-right: 10px;
 }
 
-.fade-in {
-  animation: fadeIn 0.5s ease;
+.client-card div {
+  font-size: 14px;
+  color: #555;
+  line-height: 1.6;
+  margin-bottom: 10px; /* Add margin between client details */
+}
+
+.client-card strong {
+  font-size: 16px;
+  color: #333;/* Ensures that the name is displayed as a block element */
+  margin-bottom: 5px; /* Add space below the name */
+}
+
+.client-card p {
+  margin: 4px 0;
+}
+
+.client-card .details {
+  margin-top: 10px;
+  font-size: 13px;
+  color: #888;
+}
+
+.client-card .details span {
+  display: block;
+  margin-top: 5px;
+}
+
+.search-box button {
+  background: #2196f3;
+  color: white;
+  padding: 8px 15px;
+  margin-left: 10px;
+  border: none;
+  border-radius: 5px;
+  transition: background 0.3s ease;
+}
+
+.search-box button:hover {
+  background: #1976d2;
 }
