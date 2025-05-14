@@ -1,32 +1,42 @@
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
+from bson.objectid import ObjectId
 from .models import Client
 from .serializers import ClientSerializer
-@api_view(['GET', 'POST', 'DELETE'])
+
+@api_view(['GET', 'POST', 'PUT', 'DELETE'])
 def clients(request):
-    if request.method == 'POST':
+    
+    if request.method == 'PUT':
+        try:
+            client_id = request.data.get('_id')
+            client = Client.objects.get(_id=ObjectId(client_id))
+            serializer = ClientSerializer(client, data=request.data, partial=True)
+            if serializer.is_valid():
+                serializer.save()
+                return Response(serializer.data)
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        except Exception as e:
+            return Response({'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)
+
+    elif request.method == 'POST':
         serializer = ClientSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
-            name = serializer.validated_data.get('name', 'User')
-            return Response(
-                {'message': f"Hello, {name}! Your name has been saved."},
-                status=status.HTTP_200_OK
-            )
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     elif request.method == 'GET':
-        name_query = request.query_params.get('name', None)
-        if name_query:
-            filtered_clients = Client.objects.filter(name__icontains=name_query)
-            serializer = ClientSerializer(filtered_clients, many=True)
-        else:
-            all_clients = Client.objects.all()
-            serializer = ClientSerializer(all_clients, many=True)
-        return Response(serializer.data, status=status.HTTP_200_OK)
+        name = request.query_params.get('name', '')
+        clients = Client.objects.filter(name__icontains=name)
+        serializer = ClientSerializer(clients, many=True)
+        return Response(serializer.data)
 
     elif request.method == 'DELETE':
-        names_to_delete = request.data.get('names', [])
-        deleted, _ = Client.objects.filter(name__in=names_to_delete).delete()
-        return Response({'message': f"{deleted} client(s) deleted."}, status=status.HTTP_200_OK)
+        try:
+            ids = [ObjectId(_id) for _id in request.data.get('_ids', [])]
+            deleted_count, _ = Client.objects.filter(_id__in=ids).delete()
+            return Response({'message': f'Deleted {deleted_count} clients'}, status=status.HTTP_200_OK)
+        except Exception as e:
+            return Response({'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)
