@@ -19,3 +19,10 @@ curl -X GET http://127.0.0.1:8000/clients/
 
 POST clients:
 curl -X POST http://127.0.0.1:8000/clients/      -H "Content-Type: application/json"      -d '{"name": "John Doe", "password": "helloxy23", "pan": "27DAUF23Q", "email":"debasis@dummy.com", "phone": "843083492"}'
+
+
+need to make a client end.
+where users can also register themselves.
+
+and can chat with the server for issues.
+need to use channels and will use Redis caching to load N recent messages quickly.
