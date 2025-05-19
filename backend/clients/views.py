@@ -5,6 +5,29 @@ from bson.objectid import ObjectId
 from .models import Client
 from .serializers import ClientSerializer
 
+@api_view(['POST'])
+def client_login(request):
+    username = request.data.get("username")
+    password = request.data.get("password")
+
+    if not username or not password:
+        return Response({"success": "false", "error": "Dogesh bhai username password?"}, status=400)
+
+    try:
+        client = Client.objects.get(name=username)
+    except Client.DoesNotExist:
+        return Response({"success": "false", "error": "not found"}, status=404)
+
+    if client.password != password:
+        return Response({"success": "false", "error": "incorr"}, status=401)
+
+    return Response({
+        "success": "true",
+        "_id": str(client._id),
+        "name": client.name,
+        "email": client.email,
+    })
+
 @api_view(['GET', 'POST', 'PUT', 'DELETE'])
 def clients(request):
     
@@ -40,3 +63,4 @@ def clients(request):
             return Response({'message': f'Deleted {deleted_count} clients'}, status=status.HTTP_200_OK)
         except Exception as e:
             return Response({'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)
+        

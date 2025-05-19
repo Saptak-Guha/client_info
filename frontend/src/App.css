@@ -24,4 +24,57 @@ body { margin: 0; font-family: 'Segoe UI', Tahoma, sans-serif; background: #f5f7
 .form-group { margin-bottom: 12px; }
 .form-group label { display: block; margin-bottom: 4px; font-weight: 500; }
 .modal-actions { display: flex; justify-content: flex-end; gap: 10px; }
-.card-body {padding-left: 15px;}
+.card-body {padding-left: 15px;}.chat-window {
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  width: 300px;
+  height: 400px;
+  background: white;
+  border: 1px solid #ccc;
+  display: flex;
+  flex-direction: column;
+  z-index: 1000;
+}
+
+.chat-header {
+  background: #3498db;
+  color: white;
+  padding: 0.5em;
+  display: flex;
+  justify-content: space-between;
+}
+
+.chat-messages {
+  flex: 1;
+  padding: 0.5em;
+  overflow-y: auto;
+}
+
+.chat-input {
+  display: flex;
+  border-top: 1px solid #ccc;
+}
+
+.chat-input input {
+  flex: 1;
+  padding: 0.5em;
+}
+
+.chat-input button {
+  padding: 0.5em;
+}
+
+.message {
+  margin: 4px 0;
+}
+
+.sent {
+  text-align: right;
+  color: green;
+}
+
+.received {
+  text-align: left;
+  color: #3498db;
+}

@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import './App.css';
+import ChatWindow from './ChatWindow'; 
 
 function App() {
+  const [activeChat, setActiveChat] = useState(null);
   const [formData, setFormData] = useState({ name: '', password: '', pan: '', email: '', phone: '' });
   const [clients, setClients] = useState([]);
   const [filteredClients, setFilteredClients] = useState([]);
@@ -131,6 +133,7 @@ function App() {
               <p>📱 Phone: {client.phone}</p>
               <p>🆔 PAN: {client.pan}</p>
 
+              <button className="btn primary" onClick={() => setActiveChat(client._id)}>Chat</button>
             </div>
           </div>
         ))}
@@ -157,9 +160,15 @@ function App() {
             </form>
           </div>
         </div>
-      )}
+      )} 
+      {/* only open this window after cliet ID pass then identify easy */}
+        {activeChat && (
+        <ChatWindow clientId={activeChat} onClose={() => setActiveChat(null)} />
+        )}
     </div>
+
   );
+
 }
 
 export default App;
