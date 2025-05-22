@@ -60,7 +60,14 @@ body { margin: 0; font-family: 'Segoe UI', Tahoma, sans-serif; background: #f5f7
   flex: 1;
   padding: 0.5em;
 }
-
+.xlose {
+  height: 25px; 
+  margin-top: 15px;
+  background-color: white;
+}
+.send1 {
+  color: white;
+}
 .chat-input button {
   padding: 0.5em;
 }

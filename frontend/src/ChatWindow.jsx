@@ -44,9 +44,9 @@ const ChatWindow = ({ clientId, onClose }) => {
 
   return (
     <div className="chat-window" style={{ border: "1px solid #888", padding: "1rem", width: 400 }}>
-      <div className="chat-header" style={{ display: "flex", justifyContent: "space-between" }}>
+      <div className="chat-header">
         <h3>Chat with {clientId}</h3>
-        <button onClick={onClose}>✖</button>
+        <button className='xlose' onClick={onClose}>✖</button>
       </div>
       {/* {need to fit this orelse overflow horha h} */}
       <div 
@@ -72,7 +72,7 @@ const ChatWindow = ({ clientId, onClose }) => {
           onChange={(e) => setInput(e.target.value)}
           style={{ flexGrow: 1, marginRight: "0.5rem" }}
         />
-        <button onClick={sendMessage}>Send</button>
+        <button className='btn primary' onClick={sendMessage}>Send</button>
       </div>
     </div>
   );

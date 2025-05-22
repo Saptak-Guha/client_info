@@ -53,7 +53,8 @@ function Chat({ clientId }) {
   };
 
   return (
-    <div style={{ padding: "1rem", maxWidth: 600, margin: "0 auto" }}>
+<div style={{ padding: "1rem", maxWidth: "300px"  }}>
+
       <h2>Client Chat (ID: {clientId || "not set"})</h2>
 
       <div
@@ -77,7 +78,7 @@ function Chat({ clientId }) {
         value={message}
         onChange={(e) => setMessage(e.target.value)}
         placeholder="Type a message..."
-        style={{ width: "80%", marginRight: "0.5rem" }}
+        style={{ width: "80%", marginRight: "0.5rem", marginBottom: "0.5rem" }}
       />
       <button onClick={sendMessage}>Send</button>
     </div>

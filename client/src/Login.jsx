@@ -30,7 +30,7 @@ function Login({ onLogin }) {
   };
 
   return (
-    <div style={{ padding: "1rem", maxWidth: 400, margin: "0 auto" }}>
+    <div style={{ padding: "1rem", maxWidth: 400, width: "200px" }}>
       <h2>Login</h2>
       <form onSubmit={handleSubmit}>
         <div style={{ marginBottom: "0.5rem" }}>
