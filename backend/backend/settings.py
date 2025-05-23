@@ -93,14 +93,13 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'djongo',
-        'NAME': 'your_database_name',  # Replace with your actual database name
+        'NAME': 'your_database_name',  # Use your actual DB name
         'CLIENT': {
-            'host': 'mongodb://your_username:your_password@localhost:27017/your_database_name',  # Update with your credentials
-            'authSource': 'admin',  # Use the correct authentication database
-            'authMechanism': 'SCRAM-SHA-1',  # Authentication mechanism
-        },
+            'host': 'mongodb://localhost:27017',
+        }
     }
 }
+
 
 
 
