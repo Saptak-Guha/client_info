@@ -6,7 +6,7 @@ export function Pricing() {
       <div className="flex flex-wrap justify-center gap-10">
         {[
           { name: "Free", price: "₹0", features: ["1 Week","Basic Tools", "2 Clients"] },
-          { name: "Pro", price: "₹999 per month", features: ["Advanced Tools", "15 Clients"] },
+          { name: "Pro", price: "₹999 per month", features: ["Advanced Tools", "15 Clients", "lorem ipsum"] },
           { name: "Enterprise", price: "Contact Sales", features: ["All Features", "Unlimited Clients","24*7 support"] }
         ].map((plan) => (
           <div
