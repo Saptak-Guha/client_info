@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Sign Up</title>
+  <link rel="stylesheet" href="style.css">
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-100 text-gray-800">
+
+  <div class="max-w-xl mx-auto mt-10 p-6 bg-white rounded-lg shadow">
+    <h2 class="text-2xl font-bold mb-6 text-center">Sign Up</h2>
+    <form id="signupForm" class="space-y-4">
+      <input type="text" name="name" placeholder="Enter Full Name" required class="w-full px-4 py-2 border rounded"/>
+      <input type="tel" name="phone" placeholder="Enter Phone Number" required class="w-full px-4 py-2 border rounded"/>
+      <input type="email" name="email" placeholder="Enter Email Address" required class="w-full px-4 py-2 border rounded"/>
+      <input type="password" name="password" placeholder="Enter Your Password" required class="w-full px-4 py-2 border rounded"/>
+      <input type="text" name="pan" placeholder="Enter PAN Number" required class="w-full px-4 py-2 border rounded"/>
+      <input type="text" name="gstr" placeholder="Enter GSTIN Number" required class="w-full px-4 py-2 border rounded"/>
+      
+      <button type="submit" class="w-full bg-blue-600 text-white font-bold py-2 px-4 rounded hover:bg-blue-700 transition">
+        Send
+      </button>
+    </form>
+
+    <p id="responseMessage" class="mt-4 text-center text-green-600 hidden">Form submitted successfully!</p>
+  </div>
+
+  <script>
+  document.getElementById("signupForm").addEventListener("submit", function (e) {
+    e.preventDefault();
+
+    const formData = {
+      name: this.name.value,
+      phone: this.phone.value,
+      email: this.email.value,
+      password: this.password.value,
+      pan: this.pan.value,
+      gstr: this.gstr.value
+    };
+
+    fetch("http://localhost:5000/signup", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(formData),
+    })
+      .then(async (response) => {
+        if (!response.ok) {
+          const errorData = await response.json().catch(() => null);
+          const errorMsg = errorData?.error || "Signup failed";
+          throw new Error(errorMsg);
+        }
+        return response.json();
+      })
+      .then((data) => {
+        const responseEl = document.getElementById("responseMessage");
+        responseEl.textContent = "Signup successful! Redirecting to login...";
+        responseEl.style.color = "green";
+        responseEl.classList.remove("hidden");
+
+        setTimeout(() => {
+          window.location.href = "/login.html";
+        },1);
+      })
+.catch((error) => {
+  console.log("Signup error:", error); // Corrected logging
+  const responseEl = document.getElementById("responseMessage");
+  responseEl.textContent = error.message || "Signup failed. Please try again.";
+  responseEl.style.color = "red";
+  responseEl.classList.remove("hidden");
+  });
+  });
+</script>
+</body>
+</html>

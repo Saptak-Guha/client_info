@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Login - B2S</title>
+  <link rel="stylesheet" href="/style.css" />
+</head>
+<body class="login-body">
+  <div class="login-container">
+    <h2>Welcome Back</h2>
+    <p>Please log in to your B2S account</p>
+    
+    <form id="loginForm">
+      <input type="text" name="identifier" placeholder="Phone or Email" required />
+      <input type="password" name="password" placeholder="Password" required />
+      <button type="submit">Login</button>
+      <p id="loginMessage" class="hidden"></p>
+    </form>
+
+    <p class="mt-4">New to B2S? 
+      <a href="signup.html" class="signup-link">Sign up here</a>
+    </p>
+  </div>
+
+  <script>
+    document.getElementById("loginForm").addEventListener("submit", function (e) {
+      e.preventDefault();
+
+      const identifier = this.identifier.value;
+      const password = this.password.value;
+
+      const loginData = {
+        identifier: identifier,
+        password: password,
+      };
+
+      fetch("http://localhost:5000/api/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(loginData),
+      })
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error("Login failed. Please check your credentials.");
+          }
+          return response.json();
+        })
+        .then((data) => {
+          document.getElementById("loginMessage").textContent =
+            "Login successful! Redirecting...";
+          document.getElementById("loginMessage").classList.remove("hidden");
+
+          // ✅ Redirect to another React app URL after successful login
+          setTimeout(() => {
+            window.location.href = "https://app.b2s.com/dashboard"; // change this
+          }, 2000);
+        })
+        .catch((error) => {
+          document.getElementById("loginMessage").textContent = error.message;
+          document.getElementById("loginMessage").style.color = "red";
+          document.getElementById("loginMessage").classList.remove("hidden");
+        });
+    });
+  </script>
+</body>
+</html>
