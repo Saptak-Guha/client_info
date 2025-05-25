@@ -20,7 +20,7 @@ export function Hero() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch("/api/submit", {
+      const response = await fetch("http://localhost:5000/api/submit", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -29,12 +29,16 @@ export function Hero() {
       });
 
       if (response.ok) {
+        const result = await response.json();
+        console.log("Submission successful:", result);
         setSubmitted(true);
       } else {
-        alert("Something went wrong.");
+        const errorResult = await response.json();
+        alert("Error: " + (errorResult.error || "Something went wrong."));
       }
     } catch (error) {
       console.error("Submission error:", error);
+      alert("Failed to submit form. Please try again.");
     }
   };
 
