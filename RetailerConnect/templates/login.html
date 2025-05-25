@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Login - B2S</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-100 text-gray-800">
+
+  <div class="max-w-md mx-auto mt-16 p-6 bg-white rounded-lg shadow">
+    <h2 class="text-2xl font-bold mb-2 text-center">Welcome Back</h2>
+    <p class="text-sm text-gray-600 text-center mb-6">Please log in to your B2S account</p>
+    
+    <form id="loginForm" class="space-y-4">
+      <input type="text" name="identifier" placeholder="Phone or Email" required class="w-full px-4 py-2 border rounded"/>
+      <input type="password" name="password" placeholder="Password" required class="w-full px-4 py-2 border rounded"/>
+      
+      <button type="submit" class="w-full bg-blue-600 text-white font-bold py-2 px-4 rounded hover:bg-blue-700 transition">
+        Login
+      </button>
+      <p id="loginMessage" class="text-center text-sm font-semibold hidden"></p>
+    </form>
+
+    <p class="mt-4 text-center text-sm">
+      New to B2S? 
+      <a href="/signup" class="text-blue-600 hover:underline">Sign up here</a>
+    </p>
+  </div>
+
+  <script>
+    document.getElementById("loginForm").addEventListener("submit", function (e) {
+      e.preventDefault();
+
+      const identifier = this.identifier.value.trim();
+      const password = this.password.value.trim();
+
+      const loginMessage = document.getElementById("loginMessage");
+      loginMessage.classList.add("hidden");
+
+      const loginData = {
+        identifier,
+        password
+      };
+
+      fetch("http://localhost:5000/api/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(loginData),
+      })
+        .then(async (response) => {
+          const data = await response.json();
+          if (!response.ok) {
+            throw new Error(data.error || "Login failed.");
+          }
+
+          loginMessage.textContent = "Login successful! Redirecting...";
+          loginMessage.classList.remove("hidden");
+          loginMessage.classList.remove("text-red-600");
+          loginMessage.classList.add("text-green-600");
+
+          setTimeout(() => {
+            window.location.href = "https://app.b2s.com/dashboard"; // ✅ Update with real URL
+          }, 1500);
+        })
+        .catch((error) => {
+          loginMessage.textContent = error.message;
+          loginMessage.classList.remove("hidden");
+          loginMessage.classList.remove("text-green-600");
+          loginMessage.classList.add("text-red-600");
+        });
+    });
+  </script>
+</body>
+</html>

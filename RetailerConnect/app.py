@@ -1,46 +1,51 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, render_template, redirect, url_for
 from flask_cors import CORS
 from pymongo import MongoClient
-from werkzeug.exceptions import HTTPException
 
 app = Flask(__name__)
 CORS(app)
 
-# Correct MongoDB database name (replace 'your_database_name' with your actual DB name)
+# MongoDB setup
 client = MongoClient("mongodb://localhost:27017/")
-db = client["retailer_db"]  # Use the correct database name
+db = client["retailer_db"]
 collection = db["retailers"]
+contact_collection = db["contacts"]
+
+# ----------------- ROUTES -----------------
+
+
+
+@app.route("/signup", methods=["GET"])
+def signup_page():
+    return render_template("signup.html")
+
+@app.route("/login", methods=["GET"])
+def login_page():
+    return render_template("login.html")
 
 @app.route("/signup", methods=["POST"])
 def signup():
     try:
-        data = request.get_json()
+        data = request.get_json()  # ✅ Accept JSON
+
         required_fields = ["name", "phone", "email", "password", "pan", "gstr"]
         if not all(field in data for field in required_fields):
             return jsonify({"error": "Missing fields"}), 400
 
-        # Check for existing user by email or phone
         existing_user = collection.find_one({
             "$or": [{"email": data["email"]}, {"phone": data["phone"]}]
         })
         if existing_user:
             return jsonify({"error": "User already exists"}), 409
 
-        # Insert new user
-        retailer = {field: data[field] for field in required_fields}
-        result = collection.insert_one(retailer)
-
-        return jsonify({
-            "message": "Signup successful",
-            "retailer_id": str(result.inserted_id)
-        }), 201
+        collection.insert_one({field: data[field] for field in required_fields})
+        return jsonify({"message": "Signup successful!"}), 201
 
     except Exception as e:
-        print("Server error:", e)
+        print("Signup error:", e)
         return jsonify({"error": "Internal server error"}), 500
-      
 
-# ----------------- LOGIN ROUTE -----------------
+
 @app.route("/api/login", methods=["POST"])
 def login():
     try:
@@ -51,7 +56,6 @@ def login():
         if not identifier or not password:
             return jsonify({"error": "Identifier and password required"}), 400
 
-        # Find by email or phone
         user = collection.find_one({
             "$or": [{"email": identifier}, {"phone": identifier}]
         })
@@ -70,8 +74,8 @@ def login():
     except Exception as e:
         print("Login error:", e)
         return jsonify({"error": "Internal server error"}), 500
-    
-# Form submit
+
+
 @app.route("/api/submit", methods=["POST", "OPTIONS"])
 def submit_contact():
     if request.method == "OPTIONS":
@@ -81,19 +85,25 @@ def submit_contact():
         data = request.get_json()
         name = data.get("name")
         email = data.get("email")
+        phone = data.get("phone")
+        company = data.get("company")
+        address = data.get("address")
 
-        if not name or not email:
-            return jsonify({"error": "Name and Email are required"}), 400
+        if not name or not email or not phone:
+            return jsonify({"error": "Name, Email, and Phone are required"}), 400
 
-        contact_collection = db["contacts"]
-
-        existing = contact_collection.find_one({"email": email})
+        existing = contact_collection.find_one({
+            "$or": [{"email": email}, {"phone": phone}]
+        })
         if existing:
-            return jsonify({"message": "Already submitted"}), 200
+            return jsonify({"message": "User already registered"}), 200
 
         result = contact_collection.insert_one({
             "name": name,
-            "email": email
+            "email": email,
+            "phone": phone,
+            "company": company,
+            "address": address
         })
 
         return jsonify({
@@ -104,7 +114,6 @@ def submit_contact():
     except Exception as e:
         print("Submission error:", e)
         return jsonify({"error": "Internal server error"}), 500
-
 
 
 # ----------------- RUN APP -----------------
