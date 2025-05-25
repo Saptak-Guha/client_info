@@ -70,6 +70,42 @@ def login():
     except Exception as e:
         print("Login error:", e)
         return jsonify({"error": "Internal server error"}), 500
+    
+# Form submit
+@app.route("/api/submit", methods=["POST", "OPTIONS"])
+def submit_contact():
+    if request.method == "OPTIONS":
+        return jsonify({"message": "CORS preflight check"}), 200
+
+    try:
+        data = request.get_json()
+        name = data.get("name")
+        email = data.get("email")
+
+        if not name or not email:
+            return jsonify({"error": "Name and Email are required"}), 400
+
+        contact_collection = db["contacts"]
+
+        existing = contact_collection.find_one({"email": email})
+        if existing:
+            return jsonify({"message": "Already submitted"}), 200
+
+        result = contact_collection.insert_one({
+            "name": name,
+            "email": email
+        })
+
+        return jsonify({
+            "message": "Submission successful",
+            "contact_id": str(result.inserted_id)
+        }), 201
+
+    except Exception as e:
+        print("Submission error:", e)
+        return jsonify({"error": "Internal server error"}), 500
+
+
 
 # ----------------- RUN APP -----------------
 if __name__ == "__main__":
