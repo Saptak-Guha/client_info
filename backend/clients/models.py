@@ -11,3 +11,13 @@ class Client(models.Model):
     
     def __str__(self):
         return self.name
+
+
+class Product(models.Model):
+    _id = models.ObjectIdField(primary_key=True, default=ObjectId, editable=False)
+    image_url = models.URLField()   
+    product_name = models.CharField(max_length=200)
+    quantity = models.IntegerField()
+
+    def __str__(self):
+        return self.product_name

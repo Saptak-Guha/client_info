@@ -23,29 +23,6 @@ def signup_page():
 def login_page():
     return render_template("login.html")
 
-@app.route("/signup", methods=["POST"])
-def signup():
-    try:
-        data = request.get_json()  # ✅ Accept JSON
-
-        required_fields = ["name", "phone", "email", "password", "pan", "gstr"]
-        if not all(field in data for field in required_fields):
-            return jsonify({"error": "Missing fields"}), 400
-
-        existing_user = collection.find_one({
-            "$or": [{"email": data["email"]}, {"phone": data["phone"]}]
-        })
-        if existing_user:
-            return jsonify({"error": "User already exists"}), 409
-
-        collection.insert_one({field: data[field] for field in required_fields})
-        return jsonify({"message": "Signup successful!"}), 201
-
-    except Exception as e:
-        print("Signup error:", e)
-        return jsonify({"error": "Internal server error"}), 500
-
-
 @app.route("/api/login", methods=["POST"])
 def login():
     try:
@@ -76,7 +53,7 @@ def login():
         return jsonify({"error": "Internal server error"}), 500
 
 
-@app.route("/api/submit", methods=["POST", "OPTIONS"])
+@app.route("/signup", methods=["POST", "OPTIONS"])
 def submit_contact():
     if request.method == "OPTIONS":
         return jsonify({"message": "CORS preflight check"}), 200
@@ -85,7 +62,7 @@ def submit_contact():
         data = request.get_json()
         name = data.get("name")
         email = data.get("email")
-        phone = data.get("phone")
+        phone = data.get("phone ")
         company = data.get("company")
         address = data.get("address")
 

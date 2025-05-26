@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Product Form</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 30px;
+    }
+    form {
+      max-width: 400px;
+      margin: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+    input, button {
+      padding: 10px;
+      font-size: 16px;
+    }
+    .message {
+      text-align: center;
+      margin-top: 20px;
+      font-weight: bold;
+    }
+    .success {
+      color: green;
+    }
+    .error {
+      color: red;
+    }
+  </style>
+</head>
+<body>
+
+  <h2>Add Product</h2>
+
+  <form id="productForm">
+    <input type="text" name="imageUrl" placeholder="Image URL" required>
+    <input type="text" name="productName" placeholder="Product Name" required>
+    <input type="price" name="price" placeholder="Price" required>
+    <input type="text" name="description" placeholder="Product Description" required>
+    <input type="number" name="quantity" placeholder="Quantity" required min="1">
+    <button type="submit">Submit</button>
+  </form>
+
+  <div id="message" class="message"></div>
+
+  <script>
+    const form = document.getElementById('productForm');
+    const messageDiv = document.getElementById('message');
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const formData = new FormData(form);
+      const data = {
+        price: formData.get('price'),
+        imageUrl: formData.get('imageUrl'),
+        productName: formData.get('productName'),
+        quantity: parseInt(formData.get('quantity')),
+        description: formData.get('description'),
+    };
+
+      try {
+        const response = await fetch('http://127.0.0.1:8000/clients/api/get_product/', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(data),
+        });
+
+        if (response.ok) {
+          messageDiv.textContent = 'Successfully added!';
+          messageDiv.className = 'message success';
+          form.reset();
+        } else {
+          throw new Error('Failed to add product');
+        }
+      } catch (error) {
+        messageDiv.textContent = 'Error: ' + error.message;
+        messageDiv.className = 'message error';
+      }
+    });
+  </script>
+
+</body>
+</html>

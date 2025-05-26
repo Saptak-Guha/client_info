@@ -66,6 +66,14 @@ function App() {
   return (
     <div className="container">
       <h1 className="title">Client Manager ✨</h1>
+  <a 
+  className="top-right-button" 
+  href="http://127.0.0.1:8000/clients/product" 
+  style={{ textDecoration: 'none' }}
+>
+  Add a new Product
+</a>
+
 
       <form onSubmit={handleSubmit} className="form">
         <h2>Add New Client</h2>

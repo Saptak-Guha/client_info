@@ -85,3 +85,18 @@ body { margin: 0; font-family: 'Segoe UI', Tahoma, sans-serif; background: #f5f7
   text-align: left;
   color: #3498db;
 }
+
+    .top-right-button {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      padding: 10px 15px;
+      background-color: #007BFF;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    .top-right-button:hover {
+      background-color: #0056b3;
+    }
