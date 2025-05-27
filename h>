@@ -1,0 +1,25 @@
+[33m077bfe72[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m)[m updated login signup
+[33m76a55dd4[m Peda
+[33m8f95c364[m Merge pull request #6 from sarbeswarnandi/main
+[33m185c1632[m RASA homepage added
+[33mfb863b46[m checkout, singin, login, buying_page, product adding (manufacturer), linked
+[33ma5b05f08[m added sample dashboard that works only when highlighted! removed login in b2s, ssd e ektu kaj korlam ar retailer e add korediechi login ar signup
+[33mca8a4860[m Merge pull request #5 from Saptak-Guha/main
+[33m8dd0b69a[m Updated Try it free
+[33m104f5239[m fixed bug user already exists
+[33m81cb62f8[m Merge pull request #3 from Saptak-Guha/main
+[33m59df0ea9[m Added backend
+[33m9fc637db[m Fronted modified /login added
+[33m5a7b503b[m changes to dir names
+[33m7ec59102[m Merge pull request #2 from sarbeswarnandi/main
+[33me18278f2[m added windows support, added redis
+[33mddd06b36[m Merge pull request #1 from sarbeswarnandi/main
+[33m17ed392a[m own added
+[33mf4db7880[m Minor UI improvements; Final Push!
+[33maa9355ee[m dependencies
+[33m708ec559[m integrated Redis for caching realtime communication using Channels and is working perfectly need to work on the UI to make it clean.
+[33ma02a66cc[m tackled version conflicts between djongo, redis and channels. finally everything is working wrote a simple version of chat.
+[33m2c0017ff[m Updated requirements.
+[33m619f8128[m can now perform crud
+[33m362c7f80[m Updated styling for client cards and improved spacing also added delete and search
+[33m9eb4b576[m client_database

@@ -62,10 +62,14 @@ def submit_contact():
         data = request.get_json()
         name = data.get("name")
         email = data.get("email")
-        phone = data.get("phone ")
+        phone = data.get("phone")
         company = data.get("company")
-        address = data.get("address")
+        password = data.get("password")
+        pan = data.get("pan")
+        gstr = data.get("gstr")
 
+      
+      
         if not name or not email or not phone:
             return jsonify({"error": "Name, Email, and Phone are required"}), 400
 
@@ -80,7 +84,9 @@ def submit_contact():
             "email": email,
             "phone": phone,
             "company": company,
-            "address": address
+            "password": password,
+            "pan": pan,
+            "gstr": gstr
         })
 
         return jsonify({

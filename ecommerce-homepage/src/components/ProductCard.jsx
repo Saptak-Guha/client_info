@@ -1,28 +1,43 @@
-// ProductCard.jsx
 import React from 'react';
 
-function ProductCard({ product, count, addToCart }) {
+function ProductCard({ product, count, addToCart, reduceFromCart }) {
   return (
-    <div className="border p-4 rounded-lg shadow hover:shadow-md bg-white text-black flex items-center space-x-4">
+    <div className="product-card">
       <img
         src={product.image_url}
         alt={product.product_name}
-        className="w-10 h-10 object-cover rounded"
-        style={{ maxWidth: '150px', maxHeight: '150px' }}/>
-      <div className="flex-1">
-        <h2 className="text-md font-semibold">{product.product_name}</h2>
-        <p className="text-gray-700">Available: {product.quantity}</p>
-      </div>
-      <button
-        onClick={() => addToCart(product._id)}
-        className="bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600 flex items-center"
-      >
-        Add to Cart
-        {count > 0 && (
-          <span className="ml-2 bg-white text-blue-600 px-2 rounded-full text-sm"> :  {count}</span>
+        className="product-image"
+      />
+      <div className="product-info">
+        <h2 className="product-name">{product.product_name}</h2>
+        <p className="product-quantity">Available: {product.quantity}</p>
+
+        {count === 0 ? (
+  <button
+    onClick={() => addToCart(product._id)}
+    className="add-button"
+  >
+    Add to Cart
+  </button>
+) : (
+  <div className="quantity-control">
+    <button
+      onClick={() => reduceFromCart(product._id)}
+      className="qty-reduce-button"
+    >
+      -
+    </button>
+    <span className="quantity-count">{count}</span>
+    <button
+      onClick={() => addToCart(product._id)}
+      className="qty-add-button"
+    >
+      +
+    </button>
+  </div>
         )}
-      </button>
-    </div>
+      </div>
+    </div>  
   );
 }
 

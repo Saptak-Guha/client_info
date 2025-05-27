@@ -1,4 +1,3 @@
-// HomePage.jsx
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import ProductCard from './ProductCard';
@@ -26,8 +25,6 @@ function HomePage() {
     }
 
     setCart(updatedCart);
-
-    // Send current quantity of this product to API
     const productInCart = updatedCart.find(item => item.id === productId);
 
     axios.post('https://api.example.com/add-to-cart', {
@@ -37,31 +34,50 @@ function HomePage() {
     .catch(error => console.error('Failed to add to cart:', error));
   };
 
-  const checkout = () => {
-  axios.post('http://127.0.0.1:8000/clients/api/checkout/', {
-    items: cart
-  })
-  .then(response => {
-    // response.data contains updated products with new quantities
-    setProducts(response.data);  //updated state
-    setCart([]);                // clear the cart after successful
-    alert('Checkout successful!');
-  })
-  .catch(error => {
-    console.error('Checkout failed:', error);
-  });
-};
+  const reduceFromCart = (productId) => {
+    const existing = cart.find(item => item.id === productId);
+    if (!existing) return;
 
+    let updatedCart;
+    if (existing.quantity === 1) {
+      updatedCart = cart.filter(item => item.id !== productId);
+    } else {
+      updatedCart = cart.map(item =>
+        item.id === productId ? { ...item, quantity: item.quantity - 1 } : item
+      );
+    }
+
+    setCart(updatedCart);
+
+    const productInCart = updatedCart.find(item => item.id === productId);
+
+    axios.post('https://api.example.com/add-to-cart', {
+      itemId: productId,
+      quantity: productInCart ? productInCart.quantity : 0,
+    })
+    .catch(error => console.error('Failed to update cart:', error));
+  };
+
+  const checkout = () => {
+    axios.post('http://127.0.0.1:8000/clients/api/checkout/', {
+      items: cart
+    })
+    .then(() => {
+      axios.get('http://127.0.0.1:8000/clients/api/products/')
+        .then(response => setProducts(response.data));
+      setCart([]);
+      alert('Checkout successful!');
+    })
+    .catch(error => {
+      console.error('Checkout failed:', error);
+    });
+  };
 
   return (
-    <div className="px-6 py-4 bg-black min-h-screen text-white">
-      <h1 className="text-3xl font-bold mb-6 text-white text-center">
-        Explore Our Products
-      </h1>
-
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+    <div className="homepage">
+      <h1 className="homepage-title">Explore Our Products</h1>
+      <div className="product-grid">
         {products.map(product => {
-          // find quantity in cart or 0
           const itemInCart = cart.find(item => item.id === product._id);
           const quantity = itemInCart ? itemInCart.quantity : 0;
 
@@ -71,16 +87,13 @@ function HomePage() {
               product={product}
               count={quantity}
               addToCart={addToCart}
+              reduceFromCart={reduceFromCart}
             />
           );
         })}
       </div>
-
-      <div className="mt-8 text-center">
-        <button
-          onClick={checkout}
-          className="bg-white text-black py-2 px-4 rounded hover:bg-gray-300 transition"
-        >
+      <div className="checkout-section">
+        <button onClick={checkout} className="checkout-button">
           Checkout
         </button>
       </div>

@@ -1,69 +1,183 @@
-/* Root container styling */
-#root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
-  background-color: #000000;
-  color: #ffffff;
+:root {
+  color-scheme: light;
+  background-color: #ffffff;
+  color: #1d4ed8; /* blue-700 */
+  font-family: 'Inter', system-ui, sans-serif;
+}
+
+body {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 320px;
   min-height: 100vh;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #ffffff;
+  color: #1d4ed8;
 }
 
-/* Logo styles */
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  transition: filter 300ms;
-  filter: brightness(0) invert(1); /* Make logos visible on dark */
+a {
+  font-weight: 500;
+  color: #1d4ed8;
+  text-decoration: none;
 }
-
-.logo:hover {
-  filter: drop-shadow(0 0 2em #ffffffaa);
-}
-
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
-}
-
-/* Logo spin animation */
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-/* Spin animation for react logo */
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
-}
-
-/* Card component style */
-.card {
-  padding: 2em;
-  background-color: #1a1a1a;
-  border-radius: 1rem;
-  box-shadow: 0 0 10px rgba(255, 255, 255, 0.05);
-  color: white;
-}
-
-/* Link and docs style */
-.read-the-docs {
-  color: #dddddd;
-  font-style: italic;
-}
-.read-the-docs:hover {
-  color: #ffffff;
+a:hover {
+  color: #1743b0;
   text-decoration: underline;
 }
 
-/* Button fix (if needed) */
+h1, h2, h3 {
+  margin: 0;
+  font-weight: 700;
+  color: #1d4ed8;
+}
+
+h1 {
+  font-size: 2.5rem;
+  margin-bottom: 1.5rem;
+}
+
 button {
-  transition: background-color 0.2s, color 0.2s;
+  border-radius: 8px;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
+  font-weight: 600;
+  font-family: inherit;
+  background-color: #1d4ed8;
+  color: white;
   cursor: pointer;
+  transition: background-color 0.3s, box-shadow 0.3s;
+}
+
+button:hover {
+  background-color: #1743b0;
+  box-shadow: 0 4px 12px rgba(29, 78, 216, 0.3);
+}
+
+.homepage {
+  width: 100%;
+  max-width: 1200px;
+  padding: 40px 20px;
+  margin: 0 auto;
+  background-color: #ffffff;
+}
+
+.homepage-title {
+  text-align: center;
+  font-size: 2.25rem;
+  margin-bottom: 2.5rem;
+  color: #1d4ed8;
+}
+
+.product-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 2rem;
+}
+
+.product-card {
+  border: 1px solid #d1d5db;
+  border-radius: 12px;
+  padding: 24px;
+  background-color: #ffffff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.04);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.product-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+}
+
+.product-image {
+  width: 160px;
+  height: 160px;
+  object-fit: cover;
+  border-radius: 8px;
+  margin-bottom: 16px;
+}
+
+.product-info {
+  text-align: center;
+  width: 100%;
+}
+
+.product-name {
+  font-size: 1.125rem;
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: #1e293b;
+}
+
+.product-quantity {
+  color: #6b7280;
+  font-size: 0.95rem;
+  margin-bottom: 12px;
+}
+
+.add-button {
+  background-color: #1d4ed8;
+  color: #ffffff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 6px;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.add-button:hover {
+  background-color: #1743b0;
+}
+
+.cart-count {
+  margin-left: 10px;
+  background-color: #e0f2fe;
+  color: #1d4ed8;
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-weight: 600;
+  font-size: 0.875rem;
+}
+
+.checkout-section {
+  margin-top: 60px;
+  text-align: center;
+}
+
+.checkout-button {
+  background-color: #1d4ed8;
+  color: white;
+  padding: 14px 28px;
+  font-size: 1rem;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.checkout-button:hover {
+  background-color: #1743b0;
+  transform: scale(1.05);
+}
+
+
+
+.checkout-button {
+  background-color: #1D4ED8;
+  color: #ffffff;
+  padding: 12px 24px;
+  font-size: 16px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.checkout-button:hover {
+  background-color: #1743b0;
 }

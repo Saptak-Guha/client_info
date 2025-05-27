@@ -43,10 +43,10 @@ export function Hero() {
   };
 
   return (
-    <section className="bg-blue-900 text-white px-6 py-20 text-center relative">
+    <section className="bg-blue-700 text-white px-6 py-20 text-center relative">
       {/* Top-right Login and Sign Up */}
       
-      <h1 className="text-4xl font-bold mb-4">Get More Done with B2S</h1>
+      <h1 className="text-4xl font-bold mb-4">Get More Done with sds-comm</h1>
 
       <p className="mb-6 text-lg max-w-xl mx-auto">
         A powerful platform to connect offline brands directly with retailers and customers.
@@ -57,7 +57,7 @@ export function Hero() {
           className="bg-white text-blue-900 font-bold px-6 py-3 rounded hover:bg-gray-100 transition"
           onClick={handleClick}
         >
-          Try Now!
+          Book a Demo
         </button>
       )}
 
