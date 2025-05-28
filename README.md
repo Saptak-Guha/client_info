@@ -6,7 +6,8 @@ Django 8000
 React 5173
 Mongo (default)
 
-This project is to help and store information of clients in our office.
+This project started to help and store information of clients in our office.
+Now has escalated to a product of a B2B system (Mannufacturer to Retailer).
 And keep track of everything.
 
 
