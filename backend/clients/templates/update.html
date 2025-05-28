@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Product Management (Manufacturer)</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #f5f7fa;
+      color: #333;
+      margin: 0;
+      padding: 0;
+      line-height: 1.6;
+    }
+
+    header {
+      background: linear-gradient(135deg, #1976D2, #0D47A1);
+      color: white;
+      padding: 1.5rem;
+      text-align: center;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 2rem auto;
+      padding: 1.5rem;
+      background: white;
+      border-radius: 10px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+    }
+
+    h1 {
+      margin: 0;
+      font-size: 2.2rem;
+      letter-spacing: 0.5px;
+    }
+
+    h2 {
+      color: #1976D2;
+      margin-bottom: 1.5rem;
+      text-align: center;
+      font-size: 1.8rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 2px solid #e0e0e0;
+    }
+
+    .table-container {
+      overflow-x: auto;
+      border-radius: 8px;
+      border: 1px solid #e0e0e0;
+      margin-top: 1.5rem;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 800px;
+    }
+
+    th {
+      background-color: #1976D2;
+      color: white;
+      font-weight: 600;
+      text-align: left;
+    }
+
+    th, td {
+      padding: 1rem;
+      border: 1px solid #e0e0e0;
+    }
+
+    tr:nth-child(even) {
+      background-color: #f9f9f9;
+    }
+
+    tr:hover {
+      background-color: #f1f8ff;
+      transition: background-color 0.2s;
+    }
+
+    input[type="text"],
+    input[type="number"] {
+      width: 100%;
+      padding: 0.7rem;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      font-size: 1rem;
+      box-sizing: border-box;
+      transition: border-color 0.3s;
+    }
+
+    input[type="text"]:focus,
+    input[type="number"]:focus {
+      border-color: #1976D2;
+      outline: none;
+      box-shadow: 0 0 0 2px rgba(25, 118, 210, 0.2);
+    }
+
+    .button-group {
+      display: flex;
+      gap: 0.5rem;
+      justify-content: center;
+    }
+
+    button {
+      background: linear-gradient(to bottom, #1976D2, #1565C0);
+      color: white;
+      border: none;
+      padding: 0.7rem 1.2rem;
+      cursor: pointer;
+      border-radius: 4px;
+      font-weight: 600;
+      font-size: 0.9rem;
+      transition: all 0.3s ease;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    button:hover {
+      background: linear-gradient(to bottom, #1565C0, #0D47A1);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+    }
+
+    button:active {
+      transform: translateY(0);
+    }
+
+    .status-bar {
+      padding: 0.8rem;
+      text-align: center;
+      margin-top: 1rem;
+      border-radius: 4px;
+      font-weight: 500;
+    }
+
+    .status-loading {
+      background-color: #e3f2fd;
+      color: #1976D2;
+    }
+
+    .status-success {
+      background-color: #e8f5e9;
+      color: #2e7d32;
+    }
+
+    .status-error {
+      background-color: #ffebee;
+      color: #c62828;
+    }
+
+    .action-cell {
+      min-width: 150px;
+    }
+
+    @media (max-width: 768px) {
+      .container {
+        padding: 1rem;
+        margin: 1rem;
+      }
+      
+      h1 {
+        font-size: 1.8rem;
+      }
+      
+      h2 {
+        font-size: 1.5rem;
+      }
+      
+      th, td {
+        padding: 0.8rem;
+        font-size: 0.9rem;
+      }
+      
+      input[type="text"],
+      input[type="number"] {
+        padding: 0.6rem;
+        font-size: 0.9rem;
+      }
+      
+      button {
+        padding: 0.6rem 1rem;
+      }
+    }
+
+    @media (max-width: 500px) {
+      .table-container {
+        border: none;
+      }
+      
+      table, thead, tbody, th, td, tr {
+        display: block;
+      }
+      
+      thead {
+        display: none;
+      }
+      
+      tr {
+        margin-bottom: 1.5rem;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      }
+      
+      td {
+        padding: 0.8rem;
+        padding-left: 45%;
+        position: relative;
+        border: none;
+        border-bottom: 1px solid #eee;
+      }
+      
+      td:last-child {
+        border-bottom: none;
+      }
+      
+      td::before {
+        content: attr(data-label);
+        position: absolute;
+        left: 1rem;
+        top: 50%;
+        transform: translateY(-50%);
+        font-weight: bold;
+        color: #1976D2;
+        width: 40%;
+      }
+      
+      .button-group {
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Product Management (Manufacturer)</h1>
+  </header>
+
+  <div class="container">
+    <h2>List & Update Products</h2>
+    
+    <div class="table-container">
+      <table>
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Price (₹)</th>
+            <th>Quantity</th>
+            <th>Image URL</th>
+            <th>Description</th>
+            <th>Category</th>
+            <th class="action-cell">Actions</th>
+          </tr>
+        </thead>
+        <tbody id="product-table">
+          <!-- Product rows will be dynamically inserted here -->
+        </tbody>
+      </table>
+    </div>
+    
+    <div id="status-bar" class="status-bar"></div>
+  </div>
+
+<script>
+  // ──────────── API CONFIGURATION ────────────
+  const API_BASE = 'http://127.0.0.1:8000';
+  const PRODUCTS_API = `${API_BASE}/clients/api/products/`;
+
+  // Global product cache with IDs
+  let productsData = [];
+  
+  // DOM elements
+  const statusBar = document.getElementById('status-bar');
+  const productTable = document.getElementById('product-table');
+
+  // Update status bar
+  function updateStatus(message, type = 'loading') {
+    statusBar.textContent = message;
+    statusBar.className = 'status-bar';
+    
+    switch(type) {
+      case 'success':
+        statusBar.classList.add('status-success');
+        break;
+      case 'error':
+        statusBar.classList.add('status-error');
+        break;
+      default:
+        statusBar.classList.add('status-loading');
+    }
+  }
+
+  // Load products when page loads
+  document.addEventListener('DOMContentLoaded', () => {
+    updateStatus('Loading products...');
+    loadAllProducts();
+  });
+
+  // Fetch all products from API
+  async function loadAllProducts() {
+    try {
+      const response = await fetch(PRODUCTS_API);
+      if (!response.ok) {
+        throw new Error(`Failed to fetch products: ${response.status}`);
+      }
+      productsData = await response.json();
+      renderProductTable();
+      updateStatus(`Loaded ${productsData.length} products`, 'success');
+    } catch (error) {
+      console.error('Error loading products:', error);
+      updateStatus(`Failed to load products: ${error.message}`, 'error');
+      setTimeout(() => updateStatus(''), 3000);
+    }
+  }
+
+  // Render products in the table
+  function renderProductTable() {
+    productTable.innerHTML = '';
+    
+    if (productsData.length === 0) {
+      const row = document.createElement('tr');
+      const cell = document.createElement('td');
+      cell.colSpan = 7;
+      cell.textContent = 'No products available';
+      cell.style.textAlign = 'center';
+      cell.style.padding = '2rem';
+      cell.style.color = '#757575';
+      row.appendChild(cell);
+      productTable.appendChild(row);
+      return;
+    }
+
+    const availableProducts = productsData.filter(p => p.quantity > 0);
+    
+    if (availableProducts.length === 0) {
+      const row = document.createElement('tr');
+      const cell = document.createElement('td');
+      cell.colSpan = 7;
+      cell.textContent = 'No products in stock';
+      cell.style.textAlign = 'center';
+      cell.style.padding = '2rem';
+      cell.style.color = '#c62828';
+      row.appendChild(cell);
+      productTable.appendChild(row);
+      return;
+    }
+
+    availableProducts.forEach((product, index) => {
+      const row = document.createElement('tr');
+      row.dataset.id = product._id;
+      row.dataset.index = index;
+
+      // Product Name
+      const nameCell = document.createElement('td');
+      nameCell.setAttribute('data-label', 'Name');
+      const nameInput = document.createElement('input');
+      nameInput.type = 'text';
+      nameInput.value = product.product_name || '';
+      nameInput.required = true;
+      nameInput.placeholder = 'Product name';
+      nameCell.appendChild(nameInput);
+      row.appendChild(nameCell);
+
+      // Price
+      const priceCell = document.createElement('td');
+      priceCell.setAttribute('data-label', 'Price (₹)');
+      const priceInput = document.createElement('input');
+      priceInput.type = 'number';
+      priceInput.step = '0.01';
+      priceInput.min = '0';
+      priceInput.value = product.price || '0';
+      priceInput.required = true;
+      priceInput.placeholder = 'Price';
+      priceCell.appendChild(priceInput);
+      row.appendChild(priceCell);
+
+      // Quantity
+      const qtyCell = document.createElement('td');
+      qtyCell.setAttribute('data-label', 'Quantity');
+      const qtyInput = document.createElement('input');
+      qtyInput.type = 'number';
+      qtyInput.min = '0';
+      qtyInput.value = product.quantity || '0';
+      qtyInput.required = true;
+      qtyInput.placeholder = 'Quantity';
+      qtyCell.appendChild(qtyInput);
+      row.appendChild(qtyCell);
+
+      // Image URL
+      const imgCell = document.createElement('td');
+      imgCell.setAttribute('data-label', 'Image URL');
+      const imgInput = document.createElement('input');
+      imgInput.type = 'text';
+      imgInput.value = product.image_url || '';
+      imgInput.placeholder = 'Image URL';
+      imgCell.appendChild(imgInput);
+      row.appendChild(imgCell);
+
+      // Description
+      const descCell = document.createElement('td');
+      descCell.setAttribute('data-label', 'Description');
+      const descInput = document.createElement('input');
+      descInput.type = 'text';
+      descInput.value = product.product_description || '';
+      descInput.placeholder = 'Description';
+      descCell.appendChild(descInput);
+      row.appendChild(descCell);
+
+      // Category
+      const catCell = document.createElement('td');
+      catCell.setAttribute('data-label', 'Category');
+      const catInput = document.createElement('input');
+      catInput.type = 'text';
+      catInput.value = product.product_category || '';
+      catInput.placeholder = 'Category';
+      catCell.appendChild(catInput);
+      row.appendChild(catCell);
+
+      // Actions
+      const actionCell = document.createElement('td');
+      actionCell.setAttribute('data-label', 'Actions');
+      const buttonGroup = document.createElement('div');
+      buttonGroup.className = 'button-group';
+      
+      const saveBtn = document.createElement('button');
+      saveBtn.textContent = 'Save Changes';
+      saveBtn.addEventListener('click', () => saveProductChanges(row));
+      buttonGroup.appendChild(saveBtn);
+      
+      actionCell.appendChild(buttonGroup);
+      row.appendChild(actionCell);
+
+      productTable.appendChild(row);
+    });
+  }
+
+  // Save product changes to API
+  async function saveProductChanges(row) {
+    const productId = row.dataset.id;
+    const productIndex = parseInt(row.dataset.index);
+    
+    // Get updated values from inputs
+    const updatedData = {
+      product_name: row.cells[0].querySelector('input').value,
+      price: parseFloat(row.cells[1].querySelector('input').value),
+      quantity: parseInt(row.cells[2].querySelector('input').value),
+      image_url: row.cells[3].querySelector('input').value,
+      product_description: row.cells[4].querySelector('input').value,
+      product_category: row.cells[5].querySelector('input').value
+    };
+
+    // Basic validation
+    if (!updatedData.product_name) {
+      updateStatus('Product name is required', 'error');
+      row.cells[0].querySelector('input').focus();
+      return;
+    }
+    
+    if (isNaN(updatedData.price) || updatedData.price < 0) {
+      updateStatus('Please enter a valid price', 'error');
+      row.cells[1].querySelector('input').focus();
+      return;
+    }
+    
+    if (isNaN(updatedData.quantity) || updatedData.quantity < 0) {
+      updateStatus('Please enter a valid quantity', 'error');
+      row.cells[2].querySelector('input').focus();
+      return;
+    }
+
+    updateStatus('Saving product changes...');
+    
+    try {
+      // Send PUT request to update product
+      const response = await fetch(`${PRODUCTS_API}${productId}/`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(updatedData)
+      });
+
+      // Handle non-JSON responses
+      let responseData;
+      const contentType = response.headers.get('content-type');
+      if (contentType && contentType.includes('application/json')) {
+        responseData = await response.json();
+      } else {
+        const text = await response.text();
+        throw new Error(`Server returned non-JSON response: ${text}`);
+      }
+
+      if (!response.ok) {
+        throw new Error(responseData.error || JSON.stringify(responseData));
+      }
+
+      // Update local cache with new data
+      productsData[productIndex] = {
+        ...productsData[productIndex],
+        ...updatedData
+      };
+
+      // Refresh table to show updated data
+      renderProductTable();
+      updateStatus('Product updated successfully!', 'success');
+    } catch (error) {
+      console.error('Update error:', error);
+      updateStatus(`Update failed: ${error.message}`, 'error');
+    }
+  }
+</script>
+</body>
+</html>

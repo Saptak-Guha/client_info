@@ -4,11 +4,14 @@ from rest_framework import status
 from bson.objectid import ObjectId
 from .models import Client, Product
 from .serializers import ClientSerializer
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from .serializers import ProductSerializer
 def add_product_page(request):
     return render(request, 'add_products.html') 
 
+
+def update(request):
+    return render(request, 'update.html')
 
 @api_view(['POST'])
 def client_login(request):
@@ -73,12 +76,12 @@ def clients(request):
 
 @api_view(['POST'])
 def get_product(request):
-    
     product_data = {
         "image_url": request.data.get("imageUrl"),
         "price": request.data.get("price"),
-        "description": request.data.get("description"),
+        "product_description": request.data.get("description"),
         "product_name": request.data.get("productName"),
+        "product_category": request.data.get("category"),
         "quantity": request.data.get("quantity")
     }
 
@@ -87,12 +90,12 @@ def get_product(request):
         serializer.save()
         return Response({"success": "true", "product": serializer.data})
     return Response(serializer.errors, status=400)
-from bson import ObjectId
+
 @api_view(['POST'])
 def checkout_products(request):
-    items = request.data.get('items', None)
-    if items is None:
-        return Response({"error": "Missing 'items' in request data"}, status=400)
+    items = request.data.get('items')
+    if not items:
+        return Response({"error": "Missing or empty 'items' in request data"}, status=400)
 
     errors = []
     updated_products = []
@@ -117,8 +120,14 @@ def checkout_products(request):
             errors.append(f"Product with id {product_id_str} not found.")
             continue
 
-        if not isinstance(quantity_bought, int) or quantity_bought <= 0:
+        try:
+            quantity_bought = int(quantity_bought)
+        except (ValueError, TypeError):
             errors.append(f"Invalid quantity for product {product_id_str}")
+            continue
+
+        if quantity_bought <= 0:
+            errors.append(f"Quantity must be positive for product {product_id_str}")
             continue
 
         if product.quantity < quantity_bought:
@@ -136,9 +145,53 @@ def checkout_products(request):
     return Response(serializer.data, status=200)
 
 
+@api_view(['GET', 'PUT'])
+def get_all_products(request, pk=None):
+    """
+    - GET /clients/api/products/      → list all products
+    - PUT /clients/api/products/<pk>/ → update one product (partial)
+    """
+    # ──────────── HANDLE GET (list all products) ────────────
+    if request.method == 'GET':
+        # If pk is provided, you might choose to return a single product,
+        # but here we assume GET /.../products/ always lists all.
+        products = Product.objects.all()
+        serializer = ProductSerializer(products, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
 
 @api_view(['GET'])
-def get_all_products(request):
+def list_products(request):
+    """
+    GET /clients/api/products/
+    """
     products = Product.objects.all()
     serializer = ProductSerializer(products, many=True)
-    return Response(serializer.data)
+    return Response(serializer.data, status=status.HTTP_200_OK)
+
+
+@api_view(['GET', 'PUT'])
+def product_detail(request, pk):
+    """
+    Handle both:
+    GET /api/products/<pk>/ → get single product
+    PUT /api/products/<pk>/ → update product
+    """
+    try:
+        product = Product.objects.get(_id=ObjectId(pk))
+    except Product.DoesNotExist:
+        return Response(
+            {"error": f"Product with id {pk} not found."},
+            status=status.HTTP_404_NOT_FOUND
+        )
+
+    if request.method == 'GET':
+        serializer = ProductSerializer(product)
+        return Response(serializer.data)
+
+    elif request.method == 'PUT':
+        # partial=True allows partial updates
+        serializer = ProductSerializer(product, data=request.data, partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

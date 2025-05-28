@@ -1,397 +1,435 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Product Management System</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+  />
   <style>
     :root {
-      --primary: #1976d2;
-      --primary-dark: #1565c0;
-      --primary-light: #64b5f6;
-      --secondary: #f5f5f5;
-      --text-dark: #333;
-      --text-light: #777;
-      --success: #4caf50;
-      --error: #f44336;
-      --shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-      --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-    }
+  --primary: #1976d2;
+  --primary-dark: #115293;
+  --primary-light: #4791db;
+  --text-dark: #222;
+  --text-light: #666;
+  --success: #4caf50;
+  --error: #f44336;
+  --shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  --transition: all 0.3s ease;
+}
 
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    }
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
 
-    body {
-      background: linear-gradient(135deg, #f5f7fa 0%, #e4e7ec 100%);
-      min-height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      padding: 20px;
-      color: var(--text-dark);
-    }
+body {
+  background: #f5f7fa;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  color: var(--text-dark);
+}
 
-    .container {
-      width: 100%;
-      max-width: 1000px;
-      display: flex;
-      background: white;
-      border-radius: 16px;
-      overflow: hidden;
-      box-shadow: var(--shadow);
-      animation: slideIn 0.8s ease-out;
-    }
+.container {
+  max-width: 1000px;
+  width: 100%;
+  display: flex;
+  background: white;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: var(--shadow);
+  position: relative;
+}
 
-    .form-container {
-      flex: 1;
-      padding: 40px;
-      background: white;
-    }
+.graphic-container {
+  flex: 0 0 40%;
+  background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+  color: white;
+  padding: 40px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  overflow: hidden;
+}
 
-    .graphic-container {
-      flex: 0 0 40%;
-      background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      padding: 40px;
-      color: white;
-      position: relative;
-      overflow: hidden;
-    }
+.graphic-container::before {
+  content: "";
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+  transform: rotate(30deg);
+}
 
-    .graphic-container::before {
-      content: "";
-      position: absolute;
-      top: -50%;
-      left: -50%;
-      width: 200%;
-      height: 200%;
-      background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
-      transform: rotate(30deg);
-    }
+.logo {
+  display: flex;
+  align-items: center;
+  margin-bottom: 30px;
+  z-index: 2;
+}
 
-    .logo {
-      display: flex;
-      align-items: center;
-      margin-bottom: 30px;
-      z-index: 2;
-    }
+.logo i {
+  font-size: 32px;
+  margin-right: 12px;
+}
 
-    .logo i {
-      font-size: 32px;
-      margin-right: 12px;
-    }
+.logo h1 {
+  font-size: 28px;
+  font-weight: 700;
+}
 
-    .logo h1 {
-      font-size: 28px;
-      font-weight: 700;
-    }
+.graphic-title {
+  font-size: 28px;
+  font-weight: 600;
+  margin-bottom: 15px;
+  text-align: center;
+  z-index: 2;
+}
 
-    .graphic-title {
-      font-size: 28px;
-      font-weight: 600;
-      margin-bottom: 15px;
-      text-align: center;
-      z-index: 2;
-    }
+.graphic-text {
+  font-size: 16px;
+  text-align: center;
+  max-width: 300px;
+  line-height: 1.6;
+  opacity: 0.9;
+  margin-bottom: 30px;
+  z-index: 2;
+}
 
-    .graphic-text {
-      font-size: 16px;
-      text-align: center;
-      max-width: 300px;
-      line-height: 1.6;
-      opacity: 0.9;
-      margin-bottom: 30px;
-      z-index: 2;
-    }
+.stats {
+  display: flex;
+  gap: 25px;
+  z-index: 2;
+}
 
-    .stats {
-      display: flex;
-      gap: 25px;
-      z-index: 2;
-    }
+.stat-item {
+  text-align: center;
+}
 
-    .stat-item {
-      text-align: center;
-    }
+.stat-number {
+  font-size: 32px;
+  font-weight: 700;
+  margin-bottom: 5px;
+}
 
-    .stat-number {
-      font-size: 32px;
-      font-weight: 700;
-      margin-bottom: 5px;
-    }
+.stat-label {
+  font-size: 14px;
+  opacity: 0.85;
+}
 
-    .stat-label {
-      font-size: 14px;
-      opacity: 0.85;
-    }
+.form-container {
+  flex: 1;
+  padding: 40px;
+  background: white;
+}
 
-    .form-title {
-      font-size: 32px;
-      font-weight: 700;
-      margin-bottom: 10px;
-      color: var(--primary);
-      position: relative;
-      display: inline-block;
-    }
+.form-header {
+  margin-bottom: 30px;
+}
 
-    .form-title::after {
-      content: "";
-      position: absolute;
-      bottom: -8px;
-      left: 0;
-      width: 60px;
-      height: 4px;
-      background: var(--primary);
-      border-radius: 2px;
-    }
+.form-title {
+  font-size: 32px;
+  font-weight: 700;
+  margin-bottom: 10px;
+  color: var(--primary);
+  position: relative;
+  display: inline-block;
+}
 
-    .form-subtitle {
-      color: var(--text-light);
-      margin-bottom: 30px;
-      font-size: 16px;
-    }
+.form-title::after {
+  content: "";
+  position: absolute;
+  bottom: -8px;
+  left: 0;
+  width: 60px;
+  height: 4px;
+  background: var(--primary);
+  border-radius: 2px;
+}
 
-    .form-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 20px;
-      margin-bottom: 20px;
-    }
+.form-subtitle {
+  color: var(--text-light);
+  font-size: 16px;
+}
 
-    .form-group {
-      margin-bottom: 20px;
-    }
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+  margin-bottom: 20px;
+}
 
-    .form-group.full-width {
-      grid-column: span 2;
-    }
+.form-group {
+  margin-bottom: 20px;
+}
 
-    label {
-      display: block;
-      margin-bottom: 8px;
-      font-weight: 500;
-      color: var(--text-dark);
-      display: flex;
-      align-items: center;
-    }
+.form-group.full-width {
+  grid-column: span 2;
+}
 
-    label i {
-      margin-right: 10px;
-      color: var(--primary);
-      font-size: 18px;
-    }
+label {
+  display: flex;
+  align-items: center;
+  margin-bottom: 8px;
+  font-weight: 500;
+  color: var(--text-dark);
+}
 
-    .input-with-icon {
-      position: relative;
-    }
+label i {
+  margin-right: 10px;
+  color: var(--primary);
+  font-size: 18px;
+}
 
-    .currency-symbol {
-      position: absolute;
-      left: 15px;
-      top: 50%;
-      transform: translateY(-50%);
-      color: var(--text-light);
-      font-weight: 500;
-    }
+.input-with-icon {
+  position: relative;
+}
 
-    input, select, textarea {
-      width: 100%;
-      padding: 15px 15px 15px 45px;
-      border: 1px solid #ddd;
-      border-radius: 8px;
-      font-size: 16px;
-      transition: var(--transition);
-      background-color: #fafafa;
-    }
+.currency-symbol {
+  position: absolute;
+  left: 15px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--text-light);
+  font-weight: 500;
+}
 
-    .input-with-icon input {
-      padding-left: 40px;
-    }
+input,
+select,
+textarea {
+  width: 100%;
+  padding: 15px 15px 15px 45px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 16px;
+  transition: var(--transition);
+  background-color: #fafafa;
+}
 
-    input:focus, select:focus, textarea:focus {
-      outline: none;
-      border-color: var(--primary-light);
-      box-shadow: 0 0 0 3px rgba(25, 118, 210, 0.2);
-      background-color: white;
-    }
+.input-with-icon input {
+  padding-left: 40px;
+}
 
-    textarea {
-      min-height: 120px;
-      resize: vertical;
-      padding: 15px;
-    }
+input:focus,
+select:focus,
+textarea:focus {
+  outline: none;
+  border-color: var(--primary-light);
+  box-shadow: 0 0 0 3px rgba(25, 118, 210, 0.2);
+  background-color: white;
+}
 
-    .btn-submit {
-      background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
-      color: white;
-      border: none;
-      padding: 16px 30px;
-      font-size: 18px;
-      font-weight: 600;
-      border-radius: 8px;
-      cursor: pointer;
-      width: 100%;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      gap: 12px;
-      transition: var(--transition);
-      box-shadow: 0 4px 15px rgba(25, 118, 210, 0.3);
-      position: relative;
-      overflow: hidden;
-      margin-top: 10px;
-    }
+textarea {
+  min-height: 120px;
+  resize: vertical;
+  padding-left: 15px; /* reset because no icon */
+}
 
-    .btn-submit i {
-      font-size: 20px;
-      transition: var(--transition);
-    }
+.btn-submit {
+  background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+  color: white;
+  border: none;
+  padding: 16px 30px;
+  font-size: 18px;
+  font-weight: 600;
+  border-radius: 8px;
+  cursor: pointer;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+  transition: var(--transition);
+  box-shadow: 0 4px 15px rgba(25, 118, 210, 0.3);
+  position: relative;
+  overflow: hidden;
+  margin-top: 10px;
+}
 
-    .btn-submit:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 6px 20px rgba(25, 118, 210, 0.4);
-    }
+.btn-submit i {
+  font-size: 20px;
+  transition: var(--transition);
+}
 
-    .btn-submit:hover i {
-      transform: translateX(5px);
-    }
+.btn-submit:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 20px rgba(25, 118, 210, 0.4);
+}
 
-    .btn-submit:active {
-      transform: translateY(-1px);
-    }
+.btn-submit:hover i {
+  transform: translateX(5px);
+}
 
-    .btn-submit::before {
-      content: "";
-      position: absolute;
-      top: 0;
-      left: -100%;
-      width: 100%;
-      height: 100%;
-      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
-      transition: 0.5s;
-    }
+.btn-submit:active {
+  transform: translateY(-1px);
+}
 
-    .btn-submit:hover::before {
-      left: 100%;
-    }
+.btn-submit::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.3),
+    transparent
+  );
+  transition: 0.5s;
+}
 
-    .message {
-      padding: 15px;
-      border-radius: 8px;
-      margin-top: 20px;
-      text-align: center;
-      font-weight: 500;
-      display: none;
-      animation: fadeIn 0.5s ease-out;
-    }
+.btn-submit:hover::before {
+  left: 100%;
+}
 
-    .success {
-      background-color: rgba(76, 175, 80, 0.1);
-      color: var(--success);
-      border: 1px solid rgba(76, 175, 80, 0.3);
-      display: block;
-    }
+.message {
+  padding: 15px;
+  border-radius: 8px;
+  margin-top: 20px;
+  text-align: center;
+  font-weight: 500;
+  display: none;
+  animation: fadeIn 0.5s ease-out;
+}
 
-    .error {
-      background-color: rgba(244, 67, 54, 0.1);
-      color: var(--error);
-      border: 1px solid rgba(244, 67, 54, 0.3);
-      display: block;
-    }
+.success {
+  background-color: rgba(76, 175, 80, 0.1);
+  color: var(--success);
+  border: 1px solid rgba(76, 175, 80, 0.3);
+  display: block;
+}
 
-    @keyframes slideIn {
-      from {
-        opacity: 0;
-        transform: translateY(30px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
+.error {
+  background-color: rgba(244, 67, 54, 0.1);
+  color: var(--error);
+  border: 1px solid rgba(244, 67, 54, 0.3);
+  display: block;
+}
 
-    @keyframes fadeIn {
-      from {
-        opacity: 0;
-        transform: translateY(10px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
+.pulse {
+  animation: pulse 2s infinite;
+}
 
-    @keyframes pulse {
-      0% {
-        transform: scale(1);
-        box-shadow: 0 0 0 0 rgba(25, 118, 210, 0.4);
-      }
-      70% {
-        transform: scale(1.02);
-        box-shadow: 0 0 0 10px rgba(25, 118, 210, 0);
-      }
-      100% {
-        transform: scale(1);
-        box-shadow: 0 0 0 0 rgba(25, 118, 210, 0);
-      }
-    }
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+    box-shadow: 0 0 0 0 rgba(25, 118, 210, 0.4);
+  }
+  70% {
+    transform: scale(1.02);
+    box-shadow: 0 0 0 10px rgba(25, 118, 210, 0);
+  }
+  100% {
+    transform: scale(1);
+    box-shadow: 0 0 0 0 rgba(25, 118, 210, 0);
+  }
+}
 
-    .pulse {
-      animation: pulse 2s infinite;
-    }
+.update-btn-container {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  z-index: 10;
+}
 
-    @media (max-width: 900px) {
-      .container {
-        flex-direction: column;
-      }
-      
-      .graphic-container {
-        padding: 30px 20px;
-      }
-      
-      .form-grid {
-        grid-template-columns: 1fr;
-      }
-      
-      .form-group.full-width {
-        grid-column: span 1;
-      }
-    }
+.update-btn {
+  background: linear-gradient(135deg, #ff9800 0%, #f57c00 100%);
+  color: white;
+  border: none;
+  padding: 12px 25px;
+  font-size: 16px;
+  font-weight: 600;
+  border-radius: 8px;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  transition: var(--transition);
+  box-shadow: 0 4px 12px rgba(245, 124, 0, 0.3);
+  text-decoration: none;
+}
 
-    @media (max-width: 480px) {
-      .form-container {
-        padding: 30px 20px;
-      }
-      
-      .stats {
-        flex-direction: column;
-        gap: 15px;
-      }
-      
-      .form-title {
-        font-size: 28px;
-      }
-    }
+.update-btn i {
+  font-size: 20px;
+  transition: var(--transition);
+}
+
+.update-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 18px rgba(245, 124, 0, 0.5);
+}
+
+.update-btn:hover i {
+  transform: rotate(15deg);
+}
+
+.update-btn:active {
+  transform: translateY(-1px);
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+  .container {
+    flex-direction: column;
+    max-width: 400px;
+  }
+  .graphic-container {
+    flex: none;
+    width: 100%;
+    padding: 30px 20px;
+    border-radius: 16px 16px 0 0;
+  }
+  .form-container {
+    padding: 30px 20px;
+  }
+  .form-grid {
+    grid-template-columns: 1fr;
+  }
+  .form-group.full-width {
+    grid-column: span 1;
+  }
+  .stats {
+    flex-direction: column;
+    gap: 15px;
+  }
+}
+
   </style>
 </head>
 <body>
   <div class="container">
+    <div class="update-btn-container">
+      <a href="https://127.0.0.1/clients/update/" class="update-btn">
+        <i class="fas fa-edit"></i> Update Product
+      </a>
+    </div>
+
     <div class="graphic-container">
       <div class="logo">
         <i class="fas fa-box-open"></i>
         <h1>ProductHub</h1>
       </div>
       <h2 class="graphic-title">Product Management System</h2>
-      <p class="graphic-text">Efficiently manage your inventory with our professional product management solution</p>
-      
+      <p class="graphic-text">
+        Efficiently manage your inventory with our professional product
+        management solution
+      </p>
+
       <div class="stats">
         <div class="stat-item">
           <div class="stat-number">5,280+</div>
@@ -407,141 +445,142 @@
         </div>
       </div>
     </div>
-    
+
     <div class="form-container">
-      <h2 class="form-title">Add New Product</h2>
-      <br>
-      <br>
-      <p class="form-subtitle">Fill in the details to add a new product to your inventory</p>
-      
+      <div class="form-header">
+        <h2 class="form-title">Add New Product</h2>
+        <br /><br /><br />
+        <p class="form-subtitle">
+          Fill in the details to add a new product to your inventory
+        </p>
+      </div>
+
       <form id="productForm">
         <div class="form-grid">
           <div class="form-group">
-            <label for="productId"><i class="fas fa-barcode"></i> Product ID</label>
-            <input type="text" id="productId" name="productId" placeholder="PRD-12345" required>
-          </div>
-          
-          <div class="form-group">
             <label for="productName"><i class="fas fa-tag"></i> Product Name</label>
-            <input type="text" id="productName" name="productName" placeholder="Enter product name" required>
+            <input
+              type="text"
+              id="productName"
+              name="productName"
+              placeholder="Enter product name"
+              required
+            />
           </div>
-          
+
           <div class="form-group">
             <label for="category"><i class="fas fa-list"></i> Category</label>
-            <select id="category" name="category" required>
-              <option value="">Select a category</option>
-              <option value="electronics">Electronics</option>
-              <option value="clothing">Clothing</option>
-              <option value="home">Home & Kitchen</option>
-              <option value="beauty">Beauty & Personal Care</option>
-              <option value="sports">Sports & Outdoors</option>
-              <option value="books">Books & Media</option>
-            </select>
+            <input
+              type="text"
+              id="category"
+              name="category"
+              placeholder="Enter product category"
+              required
+            />
           </div>
-          
+
           <div class="form-group">
             <label for="price"><i class="fas fa-rupee-sign"></i> Price (₹)</label>
             <div class="input-with-icon">
               <span class="currency-symbol">₹</span>
-              <input type="number" id="price" name="price" placeholder="0.00" step="0.01" min="0" required>
+              <input
+                type="number"
+                id="price"
+                name="price"
+                placeholder="0.00"
+                step="0.01"
+                min="0"
+                required
+              />
             </div>
           </div>
-          
+
           <div class="form-group">
             <label for="quantity"><i class="fas fa-cubes"></i> Quantity</label>
-            <input type="number" id="quantity" name="quantity" placeholder="0" min="1" required>
+            <input
+              type="number"
+              id="quantity"
+              name="quantity"
+              placeholder="0"
+              min="1"
+              required
+            />
           </div>
-          
-          <div class="form-group">
-            <label for="size"><i class="fas fa-ruler"></i> Size</label>
-            <input type="text" id="size" name="size" placeholder="e.g., S, M, L or dimensions">
-          </div>
-          
+
           <div class="form-group full-width">
             <label for="imageUrl"><i class="fas fa-link"></i> Image URL</label>
-            <input type="text" id="imageUrl" name="imageUrl" placeholder="https://example.com/product-image.jpg" required>
+            <input
+              type="text"
+              id="imageUrl"
+              name="imageUrl"
+              placeholder="https://example.com/product-image.jpg"
+              required
+            />
           </div>
-          
+
           <div class="form-group full-width">
-            <label for="description"><i class="fas fa-align-left"></i> Description</label>
-            <textarea id="description" name="description" placeholder="      Detailed product description..." required></textarea>
+            <label for="description"
+              ><i class="fas fa-align-left"></i> Description</label
+            >
+            <textarea
+              id="description"
+              name="description"
+              placeholder="Detailed product description..."
+              required
+            ></textarea>
           </div>
         </div>
-        
+
         <button type="submit" class="btn-submit pulse">
           <i class="fas fa-plus-circle"></i> Add Product
         </button>
       </form>
-      
+
       <div id="message" class="message"></div>
     </div>
   </div>
 
   <script>
-    const form = document.getElementById('productForm');
-    const messageDiv = document.getElementById('message');
-    
-    form.addEventListener('submit', async (e) => {
+    const form = document.getElementById("productForm");
+    const messageDiv = document.getElementById("message");
+
+    form.addEventListener("submit", async (e) => {
       e.preventDefault();
-      
-      // Get form data
-      const formData = new FormData(form);
-      const data = {
-        productId: formData.get('productId'),
-        productName: formData.get('productName'),
-        category: formData.get('category'),
-        price: formData.get('price'),
-        quantity: parseInt(formData.get('quantity')),
-        size: formData.get('size'),
-        imageUrl: formData.get('imageUrl'),
-        description: formData.get('description')
+
+      // collect form data with exact camelCase keys matching the API
+      const productData = {
+        imageUrl: form.imageUrl.value.trim(),
+        price: parseFloat(form.price.value),
+        description: form.description.value.trim(),
+        productName: form.productName.value.trim(),
+        category: form.category.value.trim(),
+        quantity: parseInt(form.quantity.value, 10),
       };
-      
-      // Show loading state
-      const submitBtn = document.querySelector('.btn-submit');
-      const originalBtnText = submitBtn.innerHTML;
-      submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Adding Product...';
-      submitBtn.disabled = true;
-      
+
       try {
-        // Simulate API call with delay
-        await new Promise(resolve => setTimeout(resolve, 1500));
-        
-        // For demo purposes, just show success message
-        messageDiv.textContent = 'Product added successfully!';
-        messageDiv.className = 'message success';
-        
-        // Reset form
+        const response = await fetch("http://127.0.0.1:8000/clients/api/get_product/", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(productData),
+        });
+
+        if (!response.ok) {
+          const errorData = await response.json();
+          throw new Error(errorData.message || "Failed to add product");
+        }
+
+        const result = await response.json();
+        messageDiv.className = "message success";
+        messageDiv.textContent = "Product added successfully!";
+
+        // Optionally, reset form after success
         form.reset();
-        
-        // Add animation to form
-        document.querySelector('.form-container').style.animation = 'pulse 1s';
-        setTimeout(() => {
-          document.querySelector('.form-container').style.animation = '';
-        }, 1000);
       } catch (error) {
-        messageDiv.textContent = 'Error: ' + error.message;
-        messageDiv.className = 'message error';
-      } finally {
-        // Reset button
-        submitBtn.innerHTML = originalBtnText;
-        submitBtn.disabled = false;
+        messageDiv.className = "message error";
+        messageDiv.textContent = error.message || "An error occurred";
       }
-      
-      // Hide message after 5 seconds
-      setTimeout(() => {
-        messageDiv.style.opacity = '1';
-        let opacity = 1;
-        const fadeInterval = setInterval(() => {
-          opacity -= 0.05;
-          messageDiv.style.opacity = opacity;
-          if (opacity <= 0) {
-            clearInterval(fadeInterval);
-            messageDiv.className = 'message';
-            messageDiv.style.opacity = '1';
-          }
-        }, 100);
-      }, 5000);
     });
   </script>
 </body>

@@ -4,7 +4,15 @@ import ChatWindow from './ChatWindow';
 
 function App() {
   const [activeChat, setActiveChat] = useState(null);
-  const [formData, setFormData] = useState({ name: '', password: '', pan: '', email: '', phone: '' });
+  const [formData, setFormData] = useState({ 
+    name: '',
+    email: '',
+    phone: '',
+    company: '',
+    pan: '',
+    password: '',
+    gstr: ''
+  });
   const [clients, setClients] = useState([]);
   const [filteredClients, setFilteredClients] = useState([]);
   const [deleteMode, setDeleteMode] = useState(false);
@@ -15,16 +23,33 @@ function App() {
 
   const apiUrl = 'http://127.0.0.1:8000/clients/';
 
-  const handleChange = e => setFormData(prev => ({ ...prev, [e.target.name]: e.target.value }));
+  const handleChange = e => {
+    const { name, value } = e.target;
+    setFormData(prev => ({ ...prev, [name]: value }));
+  };
 
   const handleSubmit = async e => {
     e.preventDefault();
     setLoading(true);
     try {
-      await fetch(apiUrl, { method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify(formData) });
+      await fetch(apiUrl, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData)
+      });
       await fetchClients();
-      setFormData({ name: '', password: '', pan: '', email: '', phone: '' });
-    } finally { setLoading(false); }
+      setFormData({
+        name: '',
+        email: '',
+        phone: '',
+        company: '',
+        pan: '',
+        password: '',
+        gstr: ''
+      });
+    } finally {
+      setLoading(false);
+    }
   };
 
   const fetchClients = async () => {
@@ -34,31 +59,50 @@ function App() {
       const data = await res.json();
       setClients(data);
       setFilteredClients(data);
-    } finally { setLoading(false); }
+    } finally {
+      setLoading(false);
+    }
   };
 
   const handleDelete = async () => {
     setLoading(true);
     try {
-      await fetch(apiUrl, { method: 'DELETE', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({ _ids: selectedIds }) });
+      await fetch(apiUrl, {
+        method: 'DELETE',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ _ids: selectedIds })
+      });
       setSelectedIds([]);
       setDeleteMode(false);
       await fetchClients();
-    } finally { setLoading(false); }
+    } finally {
+      setLoading(false);
+    }
   };
 
   const handleUpdate = async client => {
     setLoading(true);
     try {
-      await fetch(apiUrl, { method: 'PUT', headers: {'Content-Type': 'application/json'}, body: JSON.stringify(client) });
+      await fetch(apiUrl, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(client)
+      });
       setEditingClient(null);
       await fetchClients();
-    } finally { setLoading(false); }
+    } finally {
+      setLoading(false);
+    }
   };
 
   const handleSearch = e => {
     e.preventDefault();
-    setFilteredClients(clients.filter(c => c.name.toLowerCase().includes(searchTerm.toLowerCase())));
+    const lower = searchTerm.toLowerCase();
+    setFilteredClients(clients.filter(c =>
+      c.name.toLowerCase().includes(lower) ||
+      c.email.toLowerCase().includes(lower) ||
+      c.phone.toLowerCase().includes(lower)
+    ));
   };
 
   useEffect(() => { fetchClients(); }, []);
@@ -66,24 +110,25 @@ function App() {
   return (
     <div className="container">
       <h1 className="title">Client Manager ✨</h1>
-  <a 
-  className="top-right-button" 
-  href="http://127.0.0.1:8000/clients/product" 
-  style={{ textDecoration: 'none' }}
->
-  Add a new Product
-</a>
-
+      <a className="top-right-button" href="http://127.0.0.1:8000/clients/product" style={{ textDecoration: 'none' }}>Add a new Product</a>
 
       <form onSubmit={handleSubmit} className="form">
         <h2>Add New Client</h2>
-        {['name','password','pan','email','phone'].map(f => (
+        {[
+          { name: 'name', label: 'Name' },
+          { name: 'password', label: 'Password' },
+          { name: 'pan', label: 'PAN' },
+          { name: 'email', label: 'Email' },
+          { name: 'phone', label: 'Phone' },
+          { name: 'company', label: 'Industry' },
+          { name: 'gstr', label: 'GSTR' }
+        ].map(({ name, label }) => (
           <input
-            key={f}
-            type={f === 'password' ? 'password' : 'text'}
-            name={f}
-            placeholder={f.charAt(0).toUpperCase() + f.slice(1)}
-            value={formData[f]}
+            key={name}
+            type={name === 'password' ? 'password' : 'text'}
+            name={name}
+            placeholder={label}
+            value={formData[name]}
             onChange={handleChange}
             required
           />
@@ -140,7 +185,8 @@ function App() {
               <p>📧 Email: {client.email}</p>
               <p>📱 Phone: {client.phone}</p>
               <p>🆔 PAN: {client.pan}</p>
-
+              <p>🏢 Industry: {client.company}</p>
+              <p>🧾 GSTR: {client.gstr}</p>
               <button className="btn primary" onClick={() => setActiveChat(client._id)}>Chat</button>
             </div>
           </div>
@@ -156,7 +202,7 @@ function App() {
                 <div key={field} className="form-group">
                   <label>{field.charAt(0).toUpperCase() + field.slice(1)}</label>
                   <input
-                    value={editingClient[field]}
+                    value={editingClient[field] || ''}
                     onChange={e => setEditingClient(prev => ({ ...prev, [field]: e.target.value }))}
                   />
                 </div>
@@ -169,14 +215,12 @@ function App() {
           </div>
         </div>
       )} 
-      {/* only open this window after cliet ID pass then identify easy */}
-        {activeChat && (
+
+      {activeChat && (
         <ChatWindow clientId={activeChat} onClose={() => setActiveChat(null)} />
-        )}
+      )}
     </div>
-
   );
-
 }
 
 export default App;
