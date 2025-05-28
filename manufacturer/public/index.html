@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manufacturing Hub</title>
+</head>
+<body>
+    <div class="min-h-screen">
+        <!-- Top right button -->
+        <button class="top-right-button">
+            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197m13.5-9a2.5 2.5 0 11-5 0 2.5 2.5 0 015 0z"/>
+            </svg>
+            Dashboard
+        </button>
+
+        <div class="container">
+            <!-- Header -->
+            <div class="text-center mb-12">
+                <h1 class="title">Manufacturing Hub</h1>
+                <p class="subtitle">
+                    Manage your clients, streamline operations, and grow your business with our comprehensive platform
+                </p>
+            </div>
+
+            <!-- Search Form -->
+            <div class="search-form">
+                <svg class="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m21 21-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+                </svg>
+                <input
+                    type="text"
+                    placeholder="Search clients by name, email, or industry..."
+                    id="searchInput"
+                    class="flex-1"
+                />
+            </div>
+
+            <!-- Add Client Form -->
+            <div class="form">
+                <h2>Quick Add Client</h2>
+                <input type="text" placeholder="Client Name" id="clientName" />
+                <input type="email" placeholder="Email Address" id="clientEmail" />
+                <input type="tel" placeholder="Phone Number" id="clientPhone" />
+                <input type="text" placeholder="Industry" id="clientIndustry" />
+                <button class="btn primary" id="addClientBtn">
+                    <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
+                    </svg>
+                    Add Client
+                </button>
+            </div>
+
+            <!-- Controls -->
+            <div class="controls">
+                <div class="flex items-center gap-4">
+                    <span class="text-lg font-semibold text-blue-700" id="clientCount">
+                        0 Clients
+                    </span>
+                    <span class="text-sm text-gray-600 hidden-by-default" id="selectedCount">
+                        0 selected
+                    </span>
+                </div>
+                <div class="actions">
+                    <button class="btn danger hidden-by-default" id="bulkDeleteBtn">
+                        <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 7-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
+                        </svg>
+                        Delete Selected
+                    </button>
+                    <button class="btn secondary" id="supportChatBtn">
+                        <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/>
+                        </svg>
+                        Support Chat
+                    </button>
+                </div>
+            </div>
+
+            <!-- Clients Grid -->
+            <div class="clients-grid" id="clientsGrid">
+                <!-- Client cards will be dynamically inserted here -->
+            </div>
+
+            <!-- No clients message -->
+            <div class="text-center py-12 hidden-by-default" id="noClientsMessage">
+                <div class="text-gray-400 text-6xl mb-4">🔍</div>
+                <h3 class="text-xl font-semibold text-gray-600 mb-2">No clients found</h3>
+                <p class="text-gray-500">Try adjusting your search terms or add a new client</p>
+            </div>
+        </div>
+
+        <!-- Modal -->
+        <div class="modal" id="clientModal">
+            <div class="modal-content">
+                <h2 id="modalTitle">Add New Client</h2>
+                <div>
+                    <div class="form-group">
+                        <label>Client Name</label>
+                        <input type="text" id="modalClientName" placeholder="Client Name" title="Enter client name" />
+                    </div>
+                    <div class="form-group">
+                        <label>Email Address</label>
+                        <input type="email" id="modalClientEmail" placeholder="Email Address" title="Enter client email address" />
+                    </div>
+                    <div class="form-group">
+                        <label>Phone Number</label>
+                        <input type="tel" id="modalClientPhone" placeholder="Phone Number" title="Enter client phone number" />
+                    </div>
+                    <div class="form-group">
+                        <label>Industry</label>
+                        <input type="text" id="modalClientIndustry" placeholder="Industry" title="Enter client industry" />
+                    </div>
+                    <div class="form-group">
+                        <label for="modalClientStatus">Status</label>
+                        <select id="modalClientStatus" class="w-full p-3 border-2 border-gray-200 rounded-lg focus:border-blue-600 focus:outline-none">
+                            <option value="Active">Active</option>
+                            <option value="Pending">Pending</option>
+                            <option value="Inactive">Inactive</option>
+                        </select>
+                    </div>
+                    <div class="modal-actions">
+                        <button class="btn secondary" id="modalCancelBtn">Cancel</button>
+                        <button class="btn primary" id="modalSubmitBtn">Add Client</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Chat Window -->
+        <div class="chat-window hidden-by-default" id="chatWindow">
+            <div class="chat-header">
+                <span>Support Chat</span>
+                <button class="xlose" id="closeChatBtn" aria-label="Close chat window">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                    </svg>
+                </button>
+            </div>
+            <div class="chat-messages" id="chatMessages">
+                <div class="message received">Welcome to our manufacturer portal!</div>
+                <div class="message received">How can I help you today?</div>
+            </div>
+            <div class="chat-input">
+                <input type="text" placeholder="Type your message..." id="messageInput" />
+                <button class="send1" id="sendMessageBtn" aria-label="Send message">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m12 19 9 2-9-18-9 18 9-2zm0 0v-8"/>
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
