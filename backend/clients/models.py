@@ -5,9 +5,11 @@ class Client(models.Model):
     _id = models.ObjectIdField(primary_key=True, default=ObjectId, editable=False)
     name = models.CharField(max_length=100)
     password = models.CharField(max_length=100)
-    pan = models.CharField(max_length=100)
-    email = models.EmailField()
-    phone = models.CharField(max_length=20)
+    pan = models.CharField(max_length=100, unique=True)
+    email = models.EmailField(unique=True)
+    phone = models.CharField(max_length=20, unique=True)
+    company = models.CharField(max_length=100)
+    gstr = models.IntegerField()
     
     def __str__(self):
         return self.name
