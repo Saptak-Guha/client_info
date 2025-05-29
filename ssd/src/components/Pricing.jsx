@@ -13,22 +13,39 @@ export function Pricing() {
   };
 
   const plans = [
-    {
-      name: "Mini",
-      price: "₹499/month",
-      features: ["Mini Membership", "Basic Tools", "10 Clients"],
-    },
-    {
-      name: "Pro",
-      price: "₹999/month",
-      features: ["Advanced Tools", "Advance Tools", "20 Clients"],
-    },
-    {
-      name: "Enterprise",
-      price: "₹1999/month",
-      features: ["All Features", "Unlimited Clients", "24*7 support"],
-    },
-  ];
+  
+  {
+    name: "Mini",
+    price: "₹1999/month",
+    features: [
+      "Access to Basic Tools",
+      "Manage up to 20 Clients",
+      "Email Support",
+      "Upgrade Anytime"
+    ],
+  },
+  {
+    name: "Pro",
+    price: "₹4499/month",
+    features: [
+      "Access to Advanced Tools",
+      "Manage up to 50 Clients",
+      "Priority Email and Chat Support",
+      "Upgrade Anytime"
+    ],
+  },
+  {
+    name: "Custom",
+    price: "Flexible Pricing",
+    features: [
+      "Custom Solutions",
+      "AI powered Tools",
+      "All Advanced Features",
+      "Flexible Clients",
+      "24/7 Dedicated Support"
+    ],
+  },
+];
 
   return (
     <section id="pricing-section" className="py-20 px-6 bg-blue-50 text-center">

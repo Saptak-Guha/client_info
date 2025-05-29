@@ -1,5 +1,6 @@
 "use client";
 import { useState } from "react";
+import emailjs from "emailjs-com";
 
 export function OurSolution() {
   const [showForm, setShowForm] = useState(false);
@@ -23,24 +24,20 @@ export function OurSolution() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    try {
-      const response = await fetch("http://localhost:5000/api/submit", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
-      });
 
-      if (response.ok) {
-        const result = await response.json();
-        console.log("Submission successful:", result);
-        setSubmitted(true);
-      } else {
-        const errorResult = await response.json();
-        alert("Error: " + (errorResult.error || "Something went wrong."));
-      }
+    try {
+      const emailResponse = await emailjs.send(
+        "service_gapi6hn",     // ✅ Replace with your actual service ID
+        "template_x4b8m5b",    // ✅ Replace with your actual template ID
+        formData,
+        "3ohpzHPBNDz5G1sIV"    // ✅ Replace with your actual public key
+      );
+
+      console.log("Email sent successfully:", emailResponse);
+      setSubmitted(true);
     } catch (error) {
-      console.error("Submission error:", error);
-      alert("Failed to submit form. Please try again.");
+      console.error("Email send error:", error);
+      alert("Failed to send email. Please try again.");
     }
   };
 
@@ -53,11 +50,7 @@ export function OurSolution() {
             Empowering Brands, Simplifying Retail
           </h2>
           <p className="text-gray-700 text-lg leading-relaxed mb-6">
-            Our solution helps mid-sized Indian brands streamline operations,
-            connect directly with retailers, and eliminate middlemen. From
-            managing orders to automating invoices and analytics – we handle it
-            all with a white-labeled, retailer-friendly interface.
-          </p>
+            We connect brands with retailers and local dealers, enabling seamless orders, hassle-free payments, and real-time communication. Our smart platform provides powerful tools to boost sales, gain valuable insights, and effortlessly grow your network for lasting business success.</p>
 
           {/* Button & Form */}
           {!showForm && !submitted && (
