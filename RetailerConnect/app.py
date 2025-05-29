@@ -7,8 +7,8 @@ CORS(app)
 
 # MongoDB setup
 client = MongoClient("mongodb://localhost:27017/")
-db = client["retailer_db"]
-collection = db["retailers"]
+db = client["your_database_name"]  
+collection = db["clients_client"]   
 contact_collection = db["contacts"]
 
 # ----------------- ROUTES -----------------

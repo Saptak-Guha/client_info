@@ -1,0 +1,701 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Product Dashboard - Top Rated & Future Leaders</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f8f9fa;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        .dashboard-container {
+            max-width: 1600px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        /* Header Styles */
+        .dashboard-header {
+            background: linear-gradient(135deg, #1976D2 0%, #0D47A1 100%);
+            color: white;
+            padding: 25px 30px;
+            border-radius: 10px;
+            margin-bottom: 25px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+        
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .header-title h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+        
+        .header-title p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            max-width: 700px;
+        }
+        
+        .header-stats {
+            display: flex;
+            gap: 25px;
+            background: rgba(255, 255, 255, 0.15);
+            padding: 15px 20px;
+            border-radius: 8px;
+            backdrop-filter: blur(10px);
+        }
+        
+        .stat-box {
+            text-align: center;
+        }
+        
+        .stat-value {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 3px;
+        }
+        
+        .stat-label {
+            font-size: 0.9rem;
+            opacity: 0.85;
+        }
+        
+        /* Main Grid Layout */
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: 3fr 2fr;
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+        
+        .card {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+        }
+        
+        .card-header {
+            background: #1976D2;
+            color: white;
+            padding: 15px 25px;
+            font-size: 1.3rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .card-content {
+            padding: 20px;
+        }
+        
+        /* Products Section */
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 20px;
+        }
+        
+        .product-card {
+            display: flex;
+            flex-direction: column;
+            border: 1px solid #eee;
+            border-radius: 8px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            height: 100%;
+        }
+        
+        .product-card:hover {
+            border-color: #1976D2;
+            box-shadow: 0 5px 15px rgba(25, 118, 210, 0.15);
+        }
+        
+        .product-image {
+            height: 140px;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #f5f7fa;
+            position: relative;
+        }
+        
+        .product-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+        
+        .product-card:hover .product-image img {
+            transform: scale(1.05);
+        }
+        
+        .product-info {
+            padding: 15px;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .product-name {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #1976D2;
+        }
+        
+        .product-description {
+            color: #666;
+            font-size: 0.85rem;
+            margin-bottom: 12px;
+            flex-grow: 1;
+            line-height: 1.5;
+        }
+        
+        .product-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: auto;
+        }
+        
+        .product-rating {
+            color: #FF9800;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 0.9rem;
+        }
+        
+        .future-potential {
+            background: #E3F2FD;
+            color: #1976D2;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .potential-high { background: #E8F5E9; color: #2E7D32; }
+        .potential-very-high { background: #FFF8E1; color: #F57F17; }
+        .potential-medium { background: #FFF3E0; color: #EF6C00; }
+        
+        /* Predictions Section */
+        .prediction-list {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        
+        .prediction-item {
+            display: flex;
+            gap: 12px;
+            padding: 12px 15px;
+            border-radius: 8px;
+            background: #f8f9fa;
+            transition: all 0.3s ease;
+            align-items: flex-start;
+        }
+        
+        .prediction-item:hover {
+            background: #E3F2FD;
+            transform: translateX(5px);
+        }
+        
+        .prediction-rank {
+            min-width: 32px;
+            height: 32px;
+            background: #1976D2;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 0.95rem;
+            flex-shrink: 0;
+        }
+        
+        .prediction-content h3 {
+            font-size: 1rem;
+            margin-bottom: 6px;
+            color: #1976D2;
+        }
+        
+        .prediction-content p {
+            color: #555;
+            font-size: 0.88rem;
+            line-height: 1.5;
+        }
+        
+        /* Footer */
+        .dashboard-footer {
+            text-align: center;
+            padding: 20px;
+            color: #666;
+            font-size: 0.85rem;
+            border-top: 1px solid #eee;
+            margin-top: 20px;
+        }
+        
+        .trend-indicator {
+            display: flex;
+            align-items: center;
+            margin-top: 5px;
+            font-size: 0.8rem;
+        }
+        
+        .trend-up {
+            color: #2E7D32;
+        }
+        
+        .trend-down {
+            color: #C62828;
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 1200px) {
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .product-grid {
+                grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            }
+        }
+        
+        @media (max-width: 900px) {
+            .header-content {
+                flex-direction: column;
+                text-align: center;
+                gap: 20px;
+            }
+            
+            .header-stats {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .product-grid {
+                grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            }
+        }
+        
+        @media (max-width: 600px) {
+            .header-stats {
+                flex-wrap: wrap;
+            }
+            
+            .product-grid {
+                grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+            }
+            
+            .dashboard-header {
+                padding: 20px 15px;
+            }
+            
+            .header-title h1 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard-container">
+        <!-- Dashboard Header -->
+        <header class="dashboard-header">
+            <div class="header-content">
+                <div class="header-title">
+                    <h1>AI Product Dashboard</h1>
+                    <p>Top rated AI products with future potential and industry predictions. Track leaders in artificial intelligence innovation.</p>
+                </div>
+                <div class="header-stats">
+                    <div class="stat-box">
+                        <div class="stat-value">84%</div>
+                        <div class="stat-label">Adoption Growth</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-value">$1.3T</div>
+                        <div class="stat-label">Market Value</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-value">47%</div>
+                        <div class="stat-label">Enterprise Use</div>
+                    </div>
+                </div>
+            </div>
+        </header>
+        
+        <!-- Main Dashboard Grid -->
+        <div class="dashboard-grid">
+            <!-- Top AI Products Section -->
+            <section class="card">
+                <div class="card-header">
+                    <i class="fas fa-trophy"></i>
+                    Top 10 AI Products
+                </div>
+                <div class="card-content">
+                    <div class="product-grid">
+                        <!-- Product 1 -->
+                        <div class="product-card">
+                            <div class="product-image">
+                                <img src="https://images.unsplash.com/photo-1677442135722-5f8ea49cec8a?crop=entropy&cs=tinysrgb&fit=crop&fm=jpg&h=400&w=600" alt="ChatGPT">
+                            </div>
+                            <div class="product-info">
+                                <h3 class="product-name">ChatGPT</h3>
+                                <p class="product-description">Advanced conversational AI with multimodal support</p>
+                                <div class="product-meta">
+                                    <div class="product-rating">
+                                        <i class="fas fa-star"></i> 4.8
+                                    </div>
+                                    <div class="future-potential potential-very-high">
+                                        <i class="fas fa-rocket"></i> Very High
+                                    </div>
+                                </div>
+                                <div class="trend-indicator trend-up">
+                                    <i class="fas fa-arrow-up"></i> 12% growth
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Product 2 -->
+                        <div class="product-card">
+                            <div class="product-image">
+                                <img src="https://images.unsplash.com/photo-1635070041078-e363dbe005cb?crop=entropy&cs=tinysrgb&fit=crop&fm=jpg&h=400&w=600" alt="Midjourney">
+                            </div>
+                            <div class="product-info">
+                                <h3 class="product-name">Midjourney</h3>
+                                <p class="product-description">Text-to-image generator creating visual art</p>
+                                <div class="product-meta">
+                                    <div class="product-rating">
+                                        <i class="fas fa-star"></i> 4.7
+                                    </div>
+                                    <div class="future-potential potential-high">
+                                        <i class="fas fa-rocket"></i> High
+                                    </div>
+                                </div>
+                                <div class="trend-indicator trend-up">
+                                    <i class="fas fa-arrow-up"></i> 8% growth
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Product 3 -->
+                        <div class="product-card">
+                            <div class="product-image">
+                                <img src="https://images.unsplash.com/photo-1626785774573-4b799315345d?crop=entropy&cs=tinysrgb&fit=crop&fm=jpg&h=400&w=600" alt="GitHub Copilot">
+                            </div>
+                            <div class="product-info">
+                                <h3 class="product-name">GitHub Copilot</h3>
+                                <p class="product-description">AI pair programmer for real-time coding</p>
+                                <div class="product-meta">
+                                    <div class="product-rating">
+                                        <i class="fas fa-star"></i> 4.6
+                                    </div>
+                                    <div class="future-potential potential-very-high">
+                                        <i class="fas fa-rocket"></i> Very High
+                                    </div>
+                                </div>
+                                <div class="trend-indicator trend-up">
+                                    <i class="fas fa-arrow-up"></i> 15% growth
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Product 4 -->
+                        <div class="product-card">
+                            <div class="product-image">
+                                <img src="https://images.unsplash.com/photo-1667453466805-75bbf36e8707?crop=entropy&cs=tinysrgb&fit=crop&fm=jpg&h=400&w=600" alt="Claude">
+                            </div>
+                            <div class="product-info">
+                                <h3 class="product-name">Claude</h3>
+                                <p class="product-description">AI assistant focused on helpfulness and safety</p>
+                                <div class="product-meta">
+                                    <div class="product-rating">
+                                        <i class="fas fa-star"></i> 4.5
+                                    </div>
+                                    <div class="future-potential potential-high">
+                                        <i class="fas fa-rocket"></i> High
+                                    </div>
+                                </div>
+                                <div class="trend-indicator trend-up">
+                                    <i class="fas fa-arrow-up"></i> 18% growth
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Product 5 -->
+                        <div class="product-card">
+                            <div class="product-image">
+                                <img src="https://images.unsplash.com/photo-1676823092295-7bea136a8b4a?crop=entropy&cs=tinysrgb&fit=crop&fm=jpg&h=400&w=600" alt="DALL-E 3">
+                            </div>
+                            <div class="product-info">
+                                <h3 class="product-name">DALL-E 3</h3>
+                                <p class="product-description">Advanced image generation with prompt understanding</p>
+                                <div class="product-meta">
+                                    <div class="product-rating">
+                                        <i class="fas fa-star"></i> 4.6
+                                    </div>
+                                    <div class="future-potential potential-medium">
+                                        <i class="fas fa-rocket"></i> Medium
+                                    </div>
+                                </div>
+                                <div class="trend-indicator trend-up">
+                                    <i class="fas fa-arrow-up"></i> 5% growth
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Product 6 -->
+                        <div class="product-card">
+                            <div class="product-image">
+                                <img src="https://images.unsplash.com/photo-1620712943543-bcc4688e7485?crop=entropy&cs=tinysrgb&fit=crop&fm=jpg&h=400&w=600" alt="Runway ML">
+                            </div>
+                            <div class="product-info">
+                                <h3 class="product-name">Runway ML</h3>
+                                <p class="product-description">AI tools for video editing and 3D modeling</p>
+                                <div class="product-meta">
+                                    <div class="product-rating">
+                                        <i class="fas fa-star"></i> 4.4
+                                    </div>
+                                    <div class="future-potential potential-very-high">
+                                        <i class="fas fa-rocket"></i> Very High
+                                    </div>
+                                </div>
+                                <div class="trend-indicator trend-up">
+                                    <i class="fas fa-arrow-up"></i> 22% growth
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Product 7 -->
+                        <div class="product-card">
+                            <div class="product-image">
+                                <img src="https://images.unsplash.com/photo-1634128221889-82ed6efebfc3?crop=entropy&cs=tinysrgb&fit=crop&fm=jpg&h=400&w=600" alt="Stable Diffusion">
+                            </div>
+                            <div class="product-info">
+                                <h3 class="product-name">Stable Diffusion</h3>
+                                <p class="product-description">Open-source text-to-image model</p>
+                                <div class="product-meta">
+                                    <div class="product-rating">
+                                        <i class="fas fa-star"></i> 4.3
+                                    </div>
+                                    <div class="future-potential potential-high">
+                                        <i class="fas fa-rocket"></i> High
+                                    </div>
+                                </div>
+                                <div class="trend-indicator trend-up">
+                                    <i class="fas fa-arrow-up"></i> 9% growth
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Product 8 -->
+                        <div class="product-card">
+                            <div class="product-image">
+                                <img src="https://images.unsplash.com/photo-1674142590513-0b4e8c993c1d?crop=entropy&cs=tinysrgb&fit=crop&fm=jpg&h=400&w=600" alt="Gemini">
+                            </div>
+                            <div class="product-info">
+                                <h3 class="product-name">Gemini</h3>
+                                <p class="product-description">Google's multimodal AI assistant</p>
+                                <div class="product-meta">
+                                    <div class="product-rating">
+                                        <i class="fas fa-star"></i> 4.5
+                                    </div>
+                                    <div class="future-potential potential-very-high">
+                                        <i class="fas fa-rocket"></i> Very High
+                                    </div>
+                                </div>
+                                <div class="trend-indicator trend-up">
+                                    <i class="fas fa-arrow-up"></i> 25% growth
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Product 9 -->
+                        <div class="product-card">
+                            <div class="product-image">
+                                <img src="https://images.unsplash.com/photo-1635070041407-5a0d7a1e6e1c?crop=entropy&cs=tinysrgb&fit=crop&fm=jpg&h=400&w=600" alt="Synthesia">
+                            </div>
+                            <div class="product-info">
+                                <h3 class="product-name">Synthesia</h3>
+                                <p class="product-description">AI video generation with avatars</p>
+                                <div class="product-meta">
+                                    <div class="product-rating">
+                                        <i class="fas fa-star"></i> 4.2
+                                    </div>
+                                    <div class="future-potential potential-high">
+                                        <i class="fas fa-rocket"></i> High
+                                    </div>
+                                </div>
+                                <div class="trend-indicator trend-up">
+                                    <i class="fas fa-arrow-up"></i> 14% growth
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Product 10 -->
+                        <div class="product-card">
+                            <div class="product-image">
+                                <img src="https://images.unsplash.com/photo-1674142590513-0b4e8c993c1d?crop=entropy&cs=tinysrgb&fit=crop&fm=jpg&h=400&w=600" alt="Perplexity">
+                            </div>
+                            <div class="product-info">
+                                <h3 class="product-name">Perplexity</h3>
+                                <p class="product-description">AI-powered answer engine</p>
+                                <div class="product-meta">
+                                    <div class="product-rating">
+                                        <i class="fas fa-star"></i> 4.7
+                                    </div>
+                                    <div class="future-potential potential-very-high">
+                                        <i class="fas fa-rocket"></i> Very High
+                                    </div>
+                                </div>
+                                <div class="trend-indicator trend-up">
+                                    <i class="fas fa-arrow-up"></i> 30% growth
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- AI Predictions Section -->
+            <section class="card">
+                <div class="card-header">
+                    <i class="fas fa-crystal-ball"></i>
+                    Top 10 AI Predictions
+                </div>
+                <div class="card-content">
+                    <div class="prediction-list">
+                        <!-- Prediction 1 -->
+                        <div class="prediction-item">
+                            <div class="prediction-rank">1</div>
+                            <div class="prediction-content">
+                                <h3>AI Healthcare Revolution</h3>
+                                <p>AI diagnostics will achieve 90% accuracy in early disease detection by 2027.</p>
+                            </div>
+                        </div>
+                        
+                        <!-- Prediction 2 -->
+                        <div class="prediction-item">
+                            <div class="prediction-rank">2</div>
+                            <div class="prediction-content">
+                                <h3>Autonomous Everything</h3>
+                                <p>Level 5 autonomous vehicles will become commercially viable in major cities by 2028.</p>
+                            </div>
+                        </div>
+                        
+                        <!-- Prediction 3 -->
+                        <div class="prediction-item">
+                            <div class="prediction-rank">3</div>
+                            <div class="prediction-content">
+                                <h3>Personalized Education</h3>
+                                <p>AI tutors will deliver customized learning paths to 60% of students by 2027.</p>
+                            </div>
+                        </div>
+                        
+                        <!-- Prediction 4 -->
+                        <div class="prediction-item">
+                            <div class="prediction-rank">4</div>
+                            <div class="prediction-content">
+                                <h3>Climate AI Solutions</h3>
+                                <p>AI will reduce global carbon emissions by 15-20% through energy optimization.</p>
+                            </div>
+                        </div>
+                        
+                        <!-- Prediction 5 -->
+                        <div class="prediction-item">
+                            <div class="prediction-rank">5</div>
+                            <div class="prediction-content">
+                                <h3>AI Legislation Boom</h3>
+                                <p>80% of G20 countries will establish AI governance frameworks by 2027.</p>
+                            </div>
+                        </div>
+                        
+                        <!-- Prediction 6 -->
+                        <div class="prediction-item">
+                            <div class="prediction-rank">6</div>
+                            <div class="prediction-content">
+                                <h3>Generative AI Maturity</h3>
+                                <p>Enterprise generative AI tools will become standard in content creation by 2026.</p>
+                            </div>
+                        </div>
+                        
+                        <!-- Prediction 7 -->
+                        <div class="prediction-item">
+                            <div class="prediction-rank">7</div>
+                            <div class="prediction-content">
+                                <h3>AI-Augmented Workforce</h3>
+                                <p>70% of professionals will use AI assistants daily, boosting productivity by 40%.</p>
+                            </div>
+                        </div>
+                        
+                        <!-- Prediction 8 -->
+                        <div class="prediction-item">
+                            <div class="prediction-rank">8</div>
+                            <div class="prediction-content">
+                                <h3>Quantum AI Breakthroughs</h3>
+                                <p>Quantum computing will accelerate AI training times by 1000x by 2030.</p>
+                            </div>
+                        </div>
+                        
+                        <!-- Prediction 9 -->
+                        <div class="prediction-item">
+                            <div class="prediction-rank">9</div>
+                            <div class="prediction-content">
+                                <h3>Emotionally Intelligent AI</h3>
+                                <p>Affective computing will enable AI to understand human emotions by 2028.</p>
+                            </div>
+                        </div>
+                        
+                        <!-- Prediction 10 -->
+                        <div class="prediction-item">
+                            <div class="prediction-rank">10</div>
+                            <div class="prediction-content">
+                                <h3>AI-Driven Scientific Discovery</h3>
+                                <p>AI will contribute to 50% of new scientific breakthroughs by 2030.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+        
+        <!-- Dashboard Footer -->
+        <footer class="dashboard-footer">
+            <p>AI Product Dashboard • Updated: May 30, 2025 • Data sourced from industry analysis and expert evaluations</p>
+            <p>© 2025 AI Insights Group. All rights reserved.</p>
+        </footer>
+    </div>
+</body>
+</html>     

@@ -27,11 +27,6 @@ function HomePage() {
     setCart(updatedCart);
     const productInCart = updatedCart.find(item => item.id === productId);
 
-    axios.post('https://api.example.com/add-to-cart', {
-      itemId: productId,
-      quantity: productInCart.quantity,
-    })
-    .catch(error => console.error('Failed to add to cart:', error));
   };
 
   const reduceFromCart = (productId) => {
@@ -50,13 +45,7 @@ function HomePage() {
     setCart(updatedCart);
 
     const productInCart = updatedCart.find(item => item.id === productId);
-
-    axios.post('https://api.example.com/add-to-cart', {
-      itemId: productId,
-      quantity: productInCart ? productInCart.quantity : 0,
-    })
-    .catch(error => console.error('Failed to update cart:', error));
-  };
+};
 
   const checkout = () => {
     axios.post('http://127.0.0.1:8000/clients/api/checkout/', {

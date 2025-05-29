@@ -8,8 +8,8 @@ export function Testimonials() {
     },
     {
       name: "Jaya Readymade",
-      company: "Saree Store",
-      feedback: "Managing our saree inventory and connecting with local dealers has never been easier. Great support too!",
+      company: "Fashion Store",
+      feedback: "Managing our garment inventory and connecting with local dealers has never been easier. Great support too!",
     },
     {
       name: "Sikdar Tax Consultancy",

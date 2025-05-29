@@ -107,7 +107,7 @@ function App() {
 
   useEffect(() => { fetchClients(); }, []);
 
-  return (
+  return (<>
     <div className="container">
       <h1 className="title">Client Manager ✨</h1>
       <a className="top-right-button" href="http://127.0.0.1:8000/clients/product" style={{ textDecoration: 'none' }}>Add a new Product</a>
@@ -163,7 +163,7 @@ function App() {
           )}
         </div>
       </div>
-
+    </div>
       <div className="clients-grid">
         {filteredClients.map(client => (
           <div key={client._id} className="card">
@@ -219,7 +219,7 @@ function App() {
       {activeChat && (
         <ChatWindow clientId={activeChat} onClose={() => setActiveChat(null)} />
       )}
-    </div>
+    </>
   );
 }
 
