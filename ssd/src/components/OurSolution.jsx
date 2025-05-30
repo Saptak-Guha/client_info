@@ -46,7 +46,7 @@ export function OurSolution() {
       <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-10 items-center">
         {/* Left: Text */}
         <div>
-          <h2 className="text-4xl font-bold text-blue-800 mb-4">
+          <h2 className="text-4xl font-bold text-blue-700 mb-4">
             Empowering Brands, Simplifying Retail
           </h2>
           <p className="text-gray-700 text-lg leading-relaxed mb-6">

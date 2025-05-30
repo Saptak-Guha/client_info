@@ -1,41 +1,72 @@
 "use client";
-
+import Link from "next/link";
 import { Link as ScrollLink } from "react-scroll";
 
+// Change to default export
 export function Header() {
   return (
-    <header className="fixed top-0 left-0 w-full bg-white shadow z-50">
-      <div className="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between">
-        {/* Brand on the left */}
-        <div className="text-xl font-bold text-blue-700 cursor-pointer">
-          <a href="/">B2S</a>
-        </div>
-
-        {/* Navigation on the right */}
-        <nav className="flex items-center space-x-6">
-          <a
-            href="https://www.linkedin.com/in/sarbeswar-nandi-9041a31aa/"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-gray-700 hover:text-blue-700 transition"
-          >
+    <header style={{
+      position: 'fixed',
+      top: 0,
+      left: 0,
+      width: '100%',
+      backgroundColor: 'white',
+      boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
+      zIndex: 100
+    }}>
+      <div style={{
+        maxWidth: '1200px',
+        margin: '0 auto',
+        padding: '12px 16px',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'space-between'
+      }}>
+        <Link href="/" style={{
+          fontSize: '1.25rem',
+          fontWeight: 700,
+          color: '#1976d2',
+          textDecoration: 'none'
+        }}>
+          B2S
+        </Link>
+        
+        <nav style={{ display: 'flex', alignItems: 'center', gap: '24px' }}>
+          <Link href="/blog" style={{
+            color: '#4a5568',
+            textDecoration: 'none',
+            transition: 'color 0.2s ease'
+          }}>
             Blog
-          </a>
-
+          </Link>
+          
           <ScrollLink
             to="pricing-section"
             smooth={true}
             duration={600}
-            className="cursor-pointer text-gray-700 hover:text-blue-700 transition"
+            style={{
+              color: '#4a5568',
+              textDecoration: 'none',
+              transition: 'color 0.2s ease',
+              cursor: 'pointer'
+            }}
           >
             Plans
           </ScrollLink>
-
+          
           <ScrollLink
             to="our-solution-section"
             smooth={true}
             duration={600}
-            className="bg-blue-700 text-white px-4 py-2 rounded hover:bg-blue-800 transition cursor-pointer"
+            style={{
+              backgroundColor: '#1976d2',
+              color: 'white',
+              padding: '8px 16px',
+              borderRadius: '4px',
+              textDecoration: 'none',
+              transition: 'background-color 0.2s ease',
+              cursor: 'pointer'
+            }}
           >
             Book a Demo
           </ScrollLink>

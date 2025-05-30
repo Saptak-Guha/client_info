@@ -1,4 +1,3 @@
-// Chat.jsx
 import React, { useState, useEffect, useRef } from "react";
 
 function Chat({ clientId }) {
@@ -9,13 +8,11 @@ function Chat({ clientId }) {
 
   useEffect(() => {
     if (!clientId) return;
-    
-    // Close any existing connection
+
     if (socketRef.current) {
       socketRef.current.close();
     }
 
-    // Create new WebSocket connection
     socketRef.current = new WebSocket(
       `ws://127.0.0.1:8000/ws/chat/${clientId}/`
     );
@@ -45,7 +42,6 @@ function Chat({ clientId }) {
     };
 
     return () => {
-      // Cleanup: close WebSocket when component unmounts
       if (socketRef.current && socketRef.current.readyState === WebSocket.OPEN) {
         socketRef.current.close();
       }
@@ -53,7 +49,6 @@ function Chat({ clientId }) {
   }, [clientId]);
 
   useEffect(() => {
-    // Scroll to bottom when new messages arrive
     if (chatContainerRef.current) {
       chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
     }
@@ -62,11 +57,9 @@ function Chat({ clientId }) {
   const sendMessage = () => {
     if (!message.trim() || !socketRef.current) return;
 
-    // Check if connection is open
     if (socketRef.current.readyState === WebSocket.OPEN) {
-      // Format matches backend expectations
       const messageData = {
-        sender: clientId,  // This should be the client ID string
+        sender: clientId,
         message: message.trim()
       };
       
@@ -82,82 +75,88 @@ function Chat({ clientId }) {
       sendMessage();
     }
   };
+const getDisplayInfo = (msg) => {
+  if (msg.from === "me") {
+    return {
+      displayName: "Server",
+      bgColor: "#ffffff",
+      borderColor: "#4CAF50",
+      textColor: "#000000",
+      labelColor: "#4CAF50"  // green
+    };
+  } else if (msg.from === clientId) {
+    return {
+      displayName: "You",
+      bgColor: "#ffffff",
+      borderColor: "#1565C0",
+      textColor: "#000000",
+      labelColor: "#1565C0"  // dark blue
+    };
+  } else {
+    return {
+      displayName: msg.from,
+      bgColor: "#ffffff",
+      borderColor: "#555",
+      textColor: "#000000",
+      labelColor: "#333"  // default dark
+    };
+  }
+};
 
-  // Determine message display based on sender
-  const getDisplayInfo = (msg) => {
-    if (msg.from === "me") {
-      return {
-        displayName: "Server",
-        bgColor: "#ffffff",
-        borderColor: "#4CAF50",
-        textColor: "#4CAF50"
-      };
-    } else if (msg.from === clientId) {
-      return {
-        displayName: "You",
-        bgColor: "#e3f2fd",
-        borderColor: "#1976D2",
-        textColor: "#1976D2"
-      };
-    } else {
-      return {
-        displayName: msg.from,
-        bgColor: "#f5f5f5",
-        borderColor: "#666",
-        textColor: "#333"
-      };
-    }
-  };
 
   return (
     <div style={{ 
       padding: "1rem", 
-      maxWidth: "400px",
-      backgroundColor: "white",
-      border: "1px solid #1976D2",
+      maxWidth: "800px",
+      backgroundColor: "#1976D2",
+      border: "1px solid #1565C0",
       borderRadius: "8px"
     }}>
-      <h2 style={{ color: "#1976D2" }}>Client Chat (ID: {clientId || "not set"})</h2>
+      <h2 style={{ color: "#ffffff" }}>
+        Client Chat (ID: {clientId || "not set"})
+      </h2>
 
       <div
         ref={chatContainerRef}
         style={{
           height: 300,
           overflowY: "auto",
-          border: "1px solid #1976D2",
+          border: "1px solid #ffffff",
           padding: "0.5rem",
           marginBottom: "0.5rem",
-          backgroundColor: "#f0f8ff"
+          backgroundColor: "#ffffff",
+          borderRadius: "4px"
         }}
       >
-        {chatLog.map((msg, idx) => {
-          const { displayName, bgColor, borderColor, textColor } = getDisplayInfo(msg);
-          
-          return (
-            <div 
-              key={idx} 
-              style={{ 
-                margin: "0.5rem 0",
-                padding: "0.5rem",
-                backgroundColor: bgColor,
-                borderRadius: "4px",
-                borderLeft: `3px solid ${borderColor}`
-              }}
-            >
-              <strong style={{ color: textColor }}>
-                {displayName}:
-              </strong> {msg.text}
-              <div style={{ 
-                fontSize: "0.7rem", 
-                color: "#666", 
-                marginTop: "0.25rem" 
-              }}>
-                {msg.timestamp && new Date(msg.timestamp).toLocaleTimeString()}
-              </div>
-            </div>
-          );
-        })}
+     {chatLog.map((msg, idx) => {
+  const { displayName, bgColor, borderColor, textColor, labelColor } = getDisplayInfo(msg);
+  
+  return (
+    <div 
+      key={idx} 
+      style={{ 
+        margin: "0.5rem 0",
+        padding: "0.5rem",
+        backgroundColor: bgColor,
+        borderRadius: "4px",
+        borderLeft: `3px solid ${borderColor}`,
+        color: textColor
+      }}
+    >
+      <strong style={{ color: labelColor }}>
+        {displayName}:
+      </strong> {msg.text}
+      <div style={{ 
+        fontSize: "0.7rem", 
+        color: "#666", 
+        marginTop: "0.25rem" 
+      }}>
+        {msg.timestamp && new Date(msg.timestamp).toLocaleTimeString()}
       </div>
+    </div>
+  );
+})}
+ </div>
 
       <div style={{ display: "flex" }}>
         <input
@@ -170,16 +169,18 @@ function Chat({ clientId }) {
             flex: 1, 
             padding: "0.5rem", 
             marginRight: "0.5rem", 
-            border: "1px solid #1976D2",
-            borderRadius: "4px"
+            border: "1px solid #ffffff",
+            borderRadius: "4px",
+            backgroundColor: "#ffffff",
+            color: "#000000"
           }}
         />
         <button 
           onClick={sendMessage}
           style={{
-            backgroundColor: "#1976D2",
-            color: "white",
-            border: "none",
+            backgroundColor: "#ffffff",
+            color: "#1976D2",
+            border: "1px solid #ffffff",
             padding: "0.5rem 1rem",
             borderRadius: "4px",
             cursor: "pointer"

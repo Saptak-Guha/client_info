@@ -19,3 +19,9 @@ body {
   background: var(--background);
   font-family: Arial, Helvetica, sans-serif;
 }
+.bg-blue-700 {
+  background-color: #1976d2;
+}
+.text-blue-700 {
+  color: #1976d2;
+}

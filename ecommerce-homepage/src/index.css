@@ -10,7 +10,7 @@ body {
   place-items: center;
   min-width: 320px;
   min-height: 100vh;
-  background-color: #1976D2;
+  background-color: white;
     font-family: 'Space Grotesk', sans-serif; /* monospace stack */
 }
 
@@ -34,7 +34,7 @@ a:hover {
   letter-spacing: 1px;
   text-transform: uppercase;
       font-family: 'Space Grotesk', sans-serif; /* monospace stack */
-  background: linear-gradient(to right, #4f46e5, #06b6d4); /* blue to cyan gradient */
+  background: linear-gradient(to right, #1976D2, #06b6d4); /* blue to cyan gradient */
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -94,8 +94,9 @@ button:focus-visible {
 .homepage {
   background-color: #d1e3f6;
   color: #1976D2;
-  min-height: 100vh;
-  padding: 40px 60px;
+  margin-top: 2%;
+  min-height: 50vh;
+  padding: 40px 40px 40px 40px;
       font-family: 'Space Grotesk', sans-serif; /* monospace stack */
 }
 

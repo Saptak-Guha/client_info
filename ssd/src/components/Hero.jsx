@@ -55,7 +55,7 @@ export function Hero() {
 </p>
 
       <br></br>
-        <a className="bg-white text-blue-900 font-bold px-6 py-3 rounded hover:bg-gray-100 transition"
+        <a className="bg-white text-blue-700 font-bold px-6 py-3 rounded hover:bg-gray-100 transition"
           href="mailto:b2s.co.in@gmail.com"> Contact Us!
         </a>
       

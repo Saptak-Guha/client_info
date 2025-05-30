@@ -123,7 +123,7 @@ function App() {
     <div className="app">
       {/* Fixed Top Navigation */}
       <nav className="main-nav">
-        <h1 style={{ margin: 0 }}>Exclusive Store</h1>
+        <h1 style={{ margin: 0 }}>Store</h1>
         
         <div style={{ position: 'relative' }}>
           <button 
@@ -174,7 +174,7 @@ function App() {
       </nav>
 
       {/* Main Content Area */}
-      <div className="content-container">
+      <div className="content-container" style={{ backgroundColor: 'white'}}>
         {activeView === 'products' && (
           <div className="homepage">
             <h1 className="homepage-title">Explore Our Products</h1>
