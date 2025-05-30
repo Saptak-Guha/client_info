@@ -50,3 +50,7 @@ May 29th 3:52am
 to - do:
 - need a db schema for delivery and transactions 
 - need razorpay and delhivery status boards! 
+
+
+- integrated CHAT, MY account (account updates), Order button
+deploying is left!

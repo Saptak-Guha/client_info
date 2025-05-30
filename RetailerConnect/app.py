@@ -3,7 +3,7 @@ from flask_cors import CORS
 from pymongo import MongoClient
 
 app = Flask(__name__)
-CORS(app)
+CORS(app, resources={r"/*": {"origins": "http://localhost:5173"}})
 
 # MongoDB setup
 client = MongoClient("mongodb://localhost:27017/")
@@ -22,11 +22,13 @@ def signup_page():
 @app.route("/login", methods=["GET"])
 def login_page():
     return render_template("login.html")
-
 @app.route("/api/login", methods=["POST"])
 def login():
     try:
         data = request.get_json()
+        if not data:
+            return jsonify({"error": "No JSON data received"}), 400
+            
         identifier = data.get("identifier")
         password = data.get("password")
 
@@ -43,6 +45,8 @@ def login():
         if user["password"] != password:
             return jsonify({"error": "Invalid credentials"}), 401
 
+        print("Login successful for:", identifier)  # Debug print
+        print(user["_id"])
         return jsonify({
             "message": "Login successful",
             "user_id": str(user["_id"])
@@ -51,8 +55,6 @@ def login():
     except Exception as e:
         print("Login error:", e)
         return jsonify({"error": "Internal server error"}), 500
-
-
 @app.route("/signup", methods=["POST", "OPTIONS"])
 def submit_contact():
     if request.method == "OPTIONS":

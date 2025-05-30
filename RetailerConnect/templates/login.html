@@ -49,7 +49,7 @@
       </div>
       
       <!-- Login Form -->
-      <form id="loginForm" class="space-y-6">
+      <form id="loginForm" method="POST" action="#" class="space-y-6">
         <div class="space-y-4">
           <div class="relative">
             <label for="identifier" class="block text-sm font-semibold text-gray-700 mb-2">
@@ -143,6 +143,7 @@
   </div>
 
   <script>
+  document.addEventListener("DOMContentLoaded", function () {
     document.getElementById("loginForm").addEventListener("submit", function (e) {
       e.preventDefault();
 
@@ -163,41 +164,42 @@
         password
       };
 
-      fetch("http://localhost:5000/api/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(loginData),
-      })
-        .then(async (response) => {
-          const data = await response.json();
-          if (!response.ok) {
-            throw new Error(data.error || "Login failed.");
-          }
+fetch("http://127.0.0.1:5000/api/login", {
+    method: "POST",
+    headers: {
+        "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+        identifier: identifier,
+        password: password
+    }),
+})    .then(async (response) => {
+      const data = await response.json();
+      if (!response.ok) {
+        throw new Error(data.error || "Login failed.");
+      }
 
-          loginMessage.textContent = "✓ Login successful! Redirecting...";
-          loginMessage.classList.remove("hidden");
-          loginMessage.classList.remove("text-red-600", "bg-red-50");
-          loginMessage.classList.add("text-green-700", "bg-green-50");
+      loginMessage.textContent = "✓ Login successful! Redirecting...";
+      loginMessage.classList.remove("hidden");
+      loginMessage.classList.remove("text-red-600", "bg-red-50");
+      loginMessage.classList.add("text-green-700", "bg-green-50");
 
-          setTimeout(() => {
-            window.location.href = "http://localhost:5173/";
-          }, 1500);
-        })
-        .catch((error) => {
-          loginMessage.textContent = "✗ " + error.message;
-          loginMessage.classList.remove("hidden");
-          loginMessage.classList.remove("text-green-700", "bg-green-50");
-          loginMessage.classList.add("text-red-700", "bg-red-50");
-          
-          // Reset button
-          submitBtn.textContent = originalText;
-          submitBtn.disabled = false;
-        });
-    });
-
-    // Add input animation effects
+      // Pass client ID in redirect URL
+      setTimeout(() => {
+        console.log("user ID", data.user_id);
+        window.location.href = `http://localhost:5173/?clientId=${data.user_id}`; 
+      }, 1500);
+    })
+   .catch((error) => {
+    console.error('Error:', error);
+    loginMessage.textContent = `✗ ${error.message}`;
+    loginMessage.classList.remove("hidden");
+    loginMessage.classList.remove("text-green-700", "bg-green-50");
+    loginMessage.classList.add("text-red-600", "bg-red-50");
+    // Reset button
+    submitBtn.textContent = "Sign In";
+    submitBtn.disabled = false;
+});     // Add input animation effects
     document.querySelectorAll('input').forEach(input => {
       input.addEventListener('focus', function() {
         this.parentElement.classList.add('scale-105');
@@ -206,7 +208,8 @@
       input.addEventListener('blur', function() {
         this.parentElement.classList.remove('scale-105');
       });
-    });
-  </script>
+        });  });
+  
+    });    </script>
 </body>
 </html>
