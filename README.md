@@ -53,4 +53,6 @@ to - do:
 
 
 - integrated CHAT, MY account (account updates), Order button
-deploying is left!
+deploying is left! 
+
+Done! ✔️
