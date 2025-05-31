@@ -1,9 +1,45 @@
 "use client";
 import Link from "next/link";
-import { Link as ScrollLink } from "react-scroll";
+import { usePathname } from "next/navigation";
 
-// Change to default export
 export function Header() {
+  const pathname = usePathname();
+  const isHomePage = pathname === '/';
+
+  // Common styles
+  const linkStyle = {
+    color: '#4a5568',
+    textDecoration: 'none',
+    transition: 'color 0.2s ease',
+    cursor: 'pointer'
+  };
+
+  const buttonStyle = {
+    backgroundColor: '#1976d2',
+    color: 'white',
+    padding: '8px 16px',
+    borderRadius: '4px',
+    textDecoration: 'none',
+    transition: 'background-color 0.2s ease',
+    cursor: 'pointer'
+  };
+
+  // Handle scroll navigation
+  const handleScrollClick = (sectionId) => {
+    if (isHomePage) {
+      const section = document.getElementById(sectionId);
+      if (section) {
+        window.scrollTo({
+          top: section.offsetTop - 80,
+          behavior: 'smooth'
+        });
+      }
+    } else {
+      // Navigate to home page with hash
+      window.location.href = `/#${sectionId}`;
+    }
+  };
+
   return (
     <header style={{
       position: 'fixed',
@@ -32,44 +68,23 @@ export function Header() {
         </Link>
         
         <nav style={{ display: 'flex', alignItems: 'center', gap: '24px' }}>
-          <Link href="/blog" style={{
-            color: '#4a5568',
-            textDecoration: 'none',
-            transition: 'color 0.2s ease'
-          }}>
+          <Link href="/blog" style={linkStyle}>
             Blog
           </Link>
           
-          <ScrollLink
-            to="pricing-section"
-            smooth={true}
-            duration={600}
-            style={{
-              color: '#4a5568',
-              textDecoration: 'none',
-              transition: 'color 0.2s ease',
-              cursor: 'pointer'
-            }}
+          <a 
+            onClick={() => handleScrollClick('pricing-section')}
+            style={linkStyle}
           >
             Plans
-          </ScrollLink>
+          </a>
           
-          <ScrollLink
-            to="our-solution-section"
-            smooth={true}
-            duration={600}
-            style={{
-              backgroundColor: '#1976d2',
-              color: 'white',
-              padding: '8px 16px',
-              borderRadius: '4px',
-              textDecoration: 'none',
-              transition: 'background-color 0.2s ease',
-              cursor: 'pointer'
-            }}
+          <a 
+            onClick={() => handleScrollClick('our-solution-section')}
+            style={buttonStyle}
           >
             Book a Demo
-          </ScrollLink>
+          </a>
         </nav>
       </div>
     </header>
