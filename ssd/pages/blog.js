@@ -52,20 +52,25 @@ export default function Blog() {
       image: "/demo/product-listing.png"
     }
   ];
-    
-  // Container styles
+
+  // Container styles (added boxSizing and symmetric padding)
   const containerStyles = {
     maxWidth: '1200px',
-    margin: '0 auto',
-    padding: '0 20px'
+    marginLeft: 'auto',
+    marginRight: 'auto',
+    paddingLeft: '16px',
+    paddingRight: '16px',
+    boxSizing: 'border-box',
+    width: '100%',
   };
 
-  // Grid styles
+  // Grid styles (auto-fit instead of auto-fill, symmetric padding)
   const gridStyles = {
     display: 'grid',
-    gridTemplateColumns: 'repeat(auto-fill, minmax(350px, 1fr))',
+    gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
     gap: '30px',
-    margin: '60px 0'
+    margin: '60px 0',
+    boxSizing: 'border-box',
   };
 
   // Card styles
@@ -75,15 +80,16 @@ export default function Blog() {
     overflow: 'hidden',
     boxShadow: '0 4px 12px rgba(0, 0, 0, 0.08)',
     transition: 'all 0.3s ease',
-    border: '1px solid #eaeaea'
+    border: '1px solid #eaeaea',
   };
 
-  // Image container styles
+  // Image container styles (added overflow hidden to prevent any bleed)
   const imageContainerStyles = {
     position: 'relative',
     width: '100%',
     height: '240px',
-    borderBottom: '3px solid #1976d2'
+    borderBottom: '3px solid #1976d2',
+    overflow: 'hidden',
   };
 
   // Content styles
@@ -96,28 +102,28 @@ export default function Blog() {
     color: '#1976d2',
     marginTop: '0',
     marginBottom: '12px',
-    fontSize: '1.4rem'
+    fontSize: '1.4rem',
   };
 
   // Description styles
   const descStyles = {
     color: '#444',
     lineHeight: '1.6',
-    margin: '0'
+    margin: '0',
   };
 
   // Header block styles
   const headerBlockStyles = {
     backgroundColor: '#1976d2',
     padding: '80px 0',
-    marginTop: '60px' // Space for fixed header
+    marginTop: '60px', // space for fixed Header
   };
 
   // Page header styles
   const pageHeaderStyles = {
     textAlign: 'center',
     maxWidth: '800px',
-    margin: '0 auto'
+    margin: '0 auto',
   };
 
   // Main title styles
@@ -125,7 +131,7 @@ export default function Blog() {
     color: 'white',
     fontSize: '2.5rem',
     fontWeight: '700',
-    margin: '0 0 20px 0'
+    margin: '0 0 20px 0',
   };
 
   // Subtitle styles
@@ -133,32 +139,38 @@ export default function Blog() {
     color: 'rgba(255, 255, 255, 0.9)',
     fontSize: '1.2rem',
     lineHeight: '1.6',
-    margin: '0'
+    margin: '0',
   };
 
   return (
-    <div style={{ 
-      minHeight: '100vh', 
-      backgroundColor: '#ffffff',
-      fontFamily: `-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif`
-    }}>
+    <div
+      style={{
+        minHeight: '100vh',
+        overflowX: 'hidden',            // ensure no horizontal scroll
+        backgroundColor: '#ffffff',
+        fontFamily: `-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif`,
+        boxSizing: 'border-box',
+      }}
+    >
       <Header />
-      
+
       {/* Colored header block */}
       <div style={headerBlockStyles}>
-        <div style={containerStyles}>
+        <div style={{ ...containerStyles }}>
           <div style={pageHeaderStyles}>
             <h1 style={mainTitleStyles}>Platform Features</h1>
-            <p style={subtitleStyles}>Designed for B2B manufacturing efficiency</p>
+            <p style={subtitleStyles}>
+The Digital Bridge: Seamlessly Connecting Brands to Retailers for Growth, Transparency, and Peak Efficiency            </p>
           </div>
         </div>
       </div>
-      
-      <div style={containerStyles}>
+
+      {/* Grid cards section */}
+      <div style={{ ...containerStyles }}>
         <div style={gridStyles}>
-          {features.map(feature => (
-            <div 
-              key={feature.id} 
+          {features.map((feature) => (
+            <div
+              key={feature.id}
               style={cardStyles}
               onMouseEnter={(e) => {
                 e.currentTarget.style.transform = 'translateY(-5px)';
@@ -170,12 +182,13 @@ export default function Blog() {
               }}
             >
               <div style={imageContainerStyles}>
-                <Image 
-                  src={feature.image} 
+                <Image
+                  src={feature.image}
                   alt={feature.title}
                   fill
                   style={{ objectFit: 'cover' }}
                   quality={100}
+                  sizes="(max-width: 768px) 100vw, 50vw"
                 />
               </div>
               <div style={contentStyles}>
