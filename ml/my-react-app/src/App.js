@@ -107,7 +107,7 @@ const scrollToProducts = (filterType) => {
               <Package size={24} />
             </div>
             <div className="header-text">
-              <h1>Inventory Management</h1>
+              <h1>AI Dashboard</h1>
               <p>Performance tracking & restock predictions</p>
             </div>
           </div>
