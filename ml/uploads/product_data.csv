@@ -1,0 +1,51 @@
+record_type,review,rating,product,avg_rating,price,units_sold,review_count
+review,"Amazing quality, loved it!",5,,,,,
+review,"Terrible product, very disappointed",1,,,,,
+review,"Pretty decent for the price",4,,,,,
+review,"Will not buy again",2,,,,,
+review,"Exceeded expectations",5,,,,,
+review,"Just okay",3,,,,,
+review,"Not worth the money",2,,,,,
+review,"Great build quality",5,,,,,
+review,"Broke in 2 days",1,,,,,
+review,"Fast delivery and works well",4,,,,,
+review,"Packaging was awful",2,,,,,
+review,"Really good product!",5,,,,,
+review,"Not satisfied",2,,,,,
+review,"Fair for the price",3,,,,,
+review,"Loved it!",5,,,,,
+review,"Didn't work as expected",1,,,,,
+review,"Fantastic value",4,,,,,
+review,"Pretty good",4,,,,,
+review,"Waste of money",1,,,,,
+review,"Smooth experience",5,,,,,
+review,"Mediocre at best",2,,,,,
+review,"High quality and affordable",5,,,,,
+review,"Stopped working after a week",1,,,,,
+review,"Looks good but not functional",2,,,,,
+review,"Just wow!",5,,,,,
+review,"Below average",2,,,,,
+review,"Delivers what it promises",4,,,,,
+review,"Worst ever",1,,,,,
+review,"Good for beginners",4,,,,,
+review,"Feels premium",5,,,,,
+review,"Disappointing",2,,,,,
+review,"Compact and efficient",4,,,,,
+review,"Bad build",2,,,,,
+review,"Value for money",5,,,,,
+review,"Low quality",1,,,,,
+review,"Impressive features",4,,,,,
+review,"Highly recommend",5,,,,,
+review,"Not as described",2,,,,,
+review,"Perfect choice",5,,,,,
+review,"Could be better",3,,,,,
+review,"Satisfactory",3,,,,,
+product,,,Product A,4.3,499,320,78
+product,,,Product B,4.1,459,280,66
+product,,,Product C,3.8,399,340,80
+product,,,Product D,4.5,520,310,55
+product,,,Product E,3.9,450,295,60
+product,,,Product F,4.0,480,275,50
+product,,,Product G,4.2,470,260,49
+product,,,Product H,4.1,510,290,58
+our_metadata,,,,,469,305,
